@@ -1,0 +1,406 @@
+/* Letra Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+/* Letra anton */
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+.body, html {
+  background-color: #c3cae8;
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+  margin: 0;
+}
+.body h1, h2, h3, h4, h5, h6{
+  font-family: 'Anton', sans-serif;
+}
+.title{
+  color: #060608;
+}
+/* Diseño para el navbar */
+.navbar-1 {
+  display: flex;
+  flex-direction: column;
+  background-color: #fafafa;
+  color: #060608;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 60px;
+}
+.menu {
+  list-style-type: none;
+  margin: 5px;
+  padding: 10px;
+  display: none;
+}
+.menu li {
+  margin-bottom: 10px;
+}
+.menu li a {
+  display: block;
+  color: #060608;
+  text-decoration: none;
+  padding: 10px;
+  font-size: 30px;
+}
+.hamburger{
+  display: flex;
+  justify-content: space-between;
+}
+.logo-navbar-hamburguer{
+  background-color: #172743;
+  padding: 8px;
+  border-radius: 10px;
+  transition: background-color 0.6s ease;
+}
+.logo-navbar-hamburguer:hover{
+  background-color: #8798DB;
+}
+.logo-navbar-hamburguer:active{
+  background-color: #8798DB;
+}
+.flex-container{
+  display: flex;
+  align-items: center;
+}
+/* Fin Diseño navbar */
+
+/* Logo */
+.container-registro{
+  display: flex;
+  justify-content: center;
+}
+.flex-item{
+  width: auto;
+  align-content: center;
+}
+/* Logo fin */
+
+/* Diseño formuario */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 50px;
+}
+
+.input {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px;
+  text-align: center;
+}
+
+.btn-form {
+  padding: 10px 30px;
+  border-radius: 20px;
+  color: #fafafa;
+  background-color: #172743;
+  font-size: 20px;
+  margin: 0px 10px;
+  border-color: #172743;
+  transition: background-color 0.6s ease;
+}
+.btn-form:hover{
+  background-color: #8798DB;
+  border-color: #8798DB;
+}
+.btn-form-cancelar{
+  padding: 10px 30px;
+  border-radius: 20px;
+  color: #fafafa;
+  background-color: #731818;
+  font-size: 20px;
+  margin: 0px 10px;
+  border-color: #731818;
+  transition: background-color 0.6s ease;
+}
+.btn-form-cancelar:hover{
+  background-color: #eb8c8c;
+  border-color: #eb8c8c;
+}
+
+.title-h4{
+  padding: 0px;
+  margin: 20px 0px 0px 0px;
+}
+
+.title-form{
+  display: flex;
+  color: #172743;
+}
+
+.btns-form{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+/* PArte de pie de pagina */
+.footer {
+  position: relative;
+  bottom: 0%;
+  width: 99%;
+  height: 20%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f2f2f2;
+  border-radius: 10px 10px 0px 0px;
+}
+.container-cuerpo {
+  min-height: 100%;
+  position: relative;
+}
+
+.logo-section {
+  flex: 1;
+  display: flex;
+  background-color: #172743;
+  border-radius: 10px 0px 0px 0px;
+  padding: 10px;
+  justify-content: center;
+  height: 90%;
+}
+
+.logo {
+  width: 90%;
+  height: 90%;
+}
+
+.text-section {
+  flex: 2;
+  text-align: center;
+  color: #172743;
+}
+
+.icon-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.icon {
+  width: 30px;
+  margin: 5px;
+}
+/* Diseño de los botones menu */
+
+.btn-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+.btn-menu a{
+  text-decoration: none;
+}
+
+.botones-principales{
+  color: #fafafa;
+  background-color: #475C90;
+  font-size: 20px;
+  border-radius: 60px;
+  margin: 10px 5px;
+  padding-left: 115px;
+  padding-right: 115px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.6s ease;
+}
+
+.botones-principales:hover{
+  background-color: #8798DB;
+  border-color: #8798DB;
+}
+
+.botones-principales:active{
+  background-color: #8798DB;
+  border-color: #8798DB;
+}
+
+.botones-principales h4{
+  margin-left: 20px;
+}
+
+.botones-principales img{
+  margin-right: 20px;
+}
+
+
+/* Diseño carrucel xD */
+.centrado{
+  display: flex;
+  justify-content: center;
+}
+
+.container-img{
+  width: 50%;
+  position: relative;
+}
+.mySlides{
+  display: none;
+}
+.mySlides img{
+  width: 100%;
+}
+.prev,
+.next{
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: #fafafa;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6 ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+.prev:hover,
+.next:hover{
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.elements{
+  text-align: center;
+}
+.quadrate{
+  cursor: pointer;
+  height: 4px;
+  width: 50px;
+  margin: 0 2px;
+  background-color: #717171;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+  border-radius: 2px;
+}
+.active, .quadrate:hover{
+  background-color: #fafafa;
+}
+/* Tablas De productos */
+
+table{
+  margin: 10px;
+  font-size: 25px;
+  text-align: center;
+  border-collapse:collapse;
+}
+table th{
+  font-size: 30px;
+  color: #fafafa;
+  background-color: #172743;
+  border-radius: 10px 10px 0px 0px;
+  padding: 10px;
+}
+table td{
+  background-color: #fafafa;
+  border-style: none;
+  border-bottom: 3px solid #D9D9D9;
+  padding: 20px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.btn-menu-crud {
+  color: #fafafa;
+  background-color: #172743;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  border-radius: 10px;
+  transition: background-color 0.6s ease;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #8798DB;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  color: #fafafa;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-menu-crud:hover {
+  background-color: #8798DB;
+  transform: rotate(180deg);
+}
+.btn-menu-crud:active {
+  background-color: #8798DB;
+  transform: rotate(180deg);
+}
+
+table td button img{
+  margin: 0px 0px 0px 5px;
+}
+
+.container-detalles{
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  color: #717171;
+  font-size: 25px;
+}
+.container-detalles div{
+  text-align: center;
+  background-color: #fafafa;
+  max-width: 80%;
+  width: 80%;
+  border-radius: 10px;
+  padding: 20px;
+}
+.container-detalles div p{
+  padding: 10px;
+  width: 90%;
+}
+
+/* Parte de responsive de la tabla */
+@media screen and (max-width: 500px) {
+  table {
+    font-size: 15px;
+    width:100%;
+  }
+tr:nth-of-type(2n) {
+    background-color: inherit;
+}
+tr td:first-child {
+    font-size:1.3em;
+}
+tbody td:before {
+    content: attr(data-th);
+    display: block;
+    text-align:center;
+}
+}
+
