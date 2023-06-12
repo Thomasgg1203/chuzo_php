@@ -12,6 +12,23 @@
 </head>
 
 <body class="body">
+    <!--Parte del codigo php-->
+    <?php
+    require('../controller/Controller_productos.php');
+    //Mensaje de error por si pasa algo
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    //fin
+    //Toma del id necesario para llenar datos
+    if (isset($_GET['id'])){
+        $id = $_GET['id'];
+        $producto = detalle_producto($id);
+    }else{
+        echo "No se pudo tomar el id";
+    }
+    //Fin de mensaje
+    ?>
+    <!--Fin php-->
     <!--Inicio Navbar-->
     <nav>
         <div class="navbar-1">
@@ -79,19 +96,19 @@
     <div class="container-detalles">
         <div>
             <p>
-                ID - Producto
+               <b>Identificador:</b> <?php echo $producto['prod_id']; ?>
             </p>
             <hr>
             <p>
-                Categoria - Producto
+               <b>Categoria:</b> <?php echo $producto['prod_cate_id']."--".$producto['cate_nombre']; ?>
             </p>
             <hr>
             <p>
-                Nombre - Producto
+                <b>Nombre:</b> <?php echo $producto['prod_nombre']; ?>
             </p>
             <hr>
             <p>
-                Precio - Producto
+                <b>Precio:</b> <?php echo $producto['prod_precio']; ?>
             </p>
         </div>
     </div>
@@ -100,7 +117,7 @@
     <!--Botones-->
     <div class="container">
         <div class="btns-form">
-            <a href="tabla_productos.html">
+            <a href="tabla_productos.php">
                 <button type="button" class="btn-form">
                     Regresar
                 </button>

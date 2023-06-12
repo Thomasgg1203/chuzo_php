@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,24 @@
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <title>Chuzo || Actualizar Producto</title>
 </head>
+
 <body class="body">
+    <?php
+    //Mensaje de error por si pasa algo
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    //fin
+    require('../controller/Controller_productos.php');
+    //Toma del id necesario para llenar datos
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'] ?? '';
+        $prod = detalle_producto($id);
+        $cate = get_categoria();
+    } else {
+        echo "No se pudo tomar el id";
+    }
+    //Fin de mensaje
+    ?>
     <!--Inicio Navbar-->
     <nav>
         <div class="navbar-1">
@@ -49,8 +67,7 @@
                 <hr>
             </ul>
             <div class="hamburger">
-                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()"
-                    class="logo-navbar-hamburguer">
+                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()" class="logo-navbar-hamburguer">
                 <img class="logo-menu" src="img/logo.svg" width="70" height="70">
             </div>
         </div>
@@ -72,40 +89,64 @@
     </div>
     <!--Fin del logotipo ingreso-->
 
-        <!--Formulario producto-->
-        <div class="container">
-            <form>
-                <div class="title-form">
-                    <h3 class="title-h4">Nombre Producto</h3>
-                </div>
-                <div>
-                    <input class="input" type="text" class="input-with-logo">
-                </div>
-                <div class="title-form">
-                    <h3 class="title-h4">Precio Producto</h3>
-                </div>
-                <div>
-                    <input class="input" type="text" class="input-with-logo">
-                </div>
-                <div class="title-form">
-                    <h3 class="title-h4">Categoria Producto</h3>
-                </div>
-                <div>
-                    <select name="select" class="input" required>
-                        <option value="value1">Value 1</option>
-                        <option value="value2">Value 2</option>
-                        <option value="value3">Value 3</option>
-                      </select>
-                </div>
-                <br><br>
-                <div class="btns-form">
-                    <button type="submit" class="btn-form">Actualizar</button>
-                    <a href="index.html"><button type="section" class="btn-form-cancelar">Cancelar</button></a>
-                </div>
-            </form>
-        </div>
-        <!--Fin formulario Crear producto-->
-
+    <!--Formulario producto-->
+    <div class="container">
+        <form method="post">
+            <div class="title-form">
+                <h3 class="title-h4">Nombre Producto</h3>
+            </div>
+            <div>
+                <input class="input" type="text" class="input-with-logo" name="nombre" minlength="1" value="<?php echo $prod['prod_nombre']; ?>" required>
+            </div>
+            <div class="title-form">
+                <h3 class="title-h4">Precio Producto</h3>
+            </div>
+            <div>
+                <input class="input" type="text" class="input-with-logo" name="precio" value="<?php echo $prod['prod_precio']; ?>" required>
+            </div>
+            <div class="title-form">
+                <h3 class="title-h4">Categoria Producto</h3>
+            </div>
+            <div>
+                <select name="select" class="input" required>
+                    <option value="<?php echo $prod['prod_cate_id']; ?>"><?php echo $prod['prod_cate_id'] . " -- " . $prod['cate_nombre']; ?></option>
+                    <?php
+                    foreach ($cate as $c) {
+                        if ($c['cate_id'] == $prod['prod_cate_id']) {
+                            continue;
+                        } else {
+                    ?>
+                            <option value="<?php echo $c['cate_id']; ?>"><?php echo $c['cate_id'] . " -- " . $c['cate_nombre']; ?></option>
+                    <?php
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+            <br><br>
+            <div class="btns-form">
+                <button type="submit" class="btn-form" name="actualizar">Actualizar</button>
+                <a href="tabla_productos.php"><button type="button" class="btn-form-cancelar">Cancelar</button></a>
+            </div>
+        </form>
+    </div>
+    <!--Fin formulario Crear producto-->
+        <?php
+            if(isset($_POST['actualizar'])){
+                //validar los datos
+                $nombre_prod = $_POST['nombre'] ?? '';
+                $precio_prod = $_POST['precio'] ?? '';
+                $cate_prod   = $_POST['select'] ?? '';
+                $id_prod = $id;
+                if(actualizar_producto($id_prod, $nombre_prod, $precio_prod, $cate_prod)==true){
+                    echo '<script>alert("Se actualizo con exito")
+                    window.location.replace("../public/tabla_productos.php");
+                    </script>';
+                }else{
+                    echo '<script>alert("No se puedo actualizar")</script>';
+                }
+            }
+        ?>
     <br>
     <!--Parte del footer-->
     <footer class="footer">

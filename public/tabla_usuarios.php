@@ -1,17 +1,27 @@
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Link CSS-->
     <link rel="stylesheet" type="text/css" href="styles/style.css">
-    <!--Titulo-->
-    <title>Tabla Productos || Chuzo</title>
+    <title>Chuzo ||Tabla Usuarios</title>
 </head>
 
 <body class="body">
+        <!--El archivo que se requiere-->
+        <?php
+        require('../controller/Controller_usuarios.php');
+        //llenar datos
+        //consumir metodo de recibir usuarios
+        $usuarios = get_usuarios();
+        ?>
+        <!--fin archivo-->
     <!--Inicio Navbar-->
     <nav>
         <div class="navbar-1">
@@ -53,8 +63,7 @@
                 <hr>
             </ul>
             <div class="hamburger">
-                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()"
-                    class="logo-navbar-hamburguer">
+                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()" class="logo-navbar-hamburguer">
                 <img class="logo-menu" src="img/logo.svg" alt="" width="70" height="70">
             </div>
         </div>
@@ -64,66 +73,49 @@
     <!--Parte del logotipo ingreso-->
     <div class="container-registro">
         <div class="flex-item">
-            <img src="img/producto-navbar.svg" width="150px" height="150px">
+            <img src="img/usuarios-navbar.svg" width="150px" height="150px">
         </div>
     </div>
     <div class="container-registro">
         <div class="flex-item fontype">
             <h1 class="title">
-                INFORMACIÓN PRODUCTOS
+                INFORMACIÓN USUARIOS
             </h1>
         </div>
     </div>
     <!--Fin del logotipo ingreso-->
-
     <!--Tabla productos-->
     <div class="container">
         <table>
             <tr>
-                <th colspan="3">
-                    Productos
-                </th>
+                <th colspan="3">Usuarios</th>
             </tr>
-            <tr>
-                <td>
-                    ID
-                </td>
-                <td>
-                    Producto(nombre)
-                </td>
+            <?php
+            //relleno de datos usuarios
+            foreach ($usuarios as $user) {
+                echo '<tr>';
+                echo "<td>" . $user['usu_id'] . "</td>";
+                echo "<td>" . $user['usu_documento'] . "</td>";
+            ?>
                 <td class="dropdown">
                     <button class="btn-menu-crud">
                         <img src="img/btn---.svg" width="20" height="20">
                     </button>
                     <div class="dropdown-content">
-                        <a href="detalles_producto.html">Detalles</a>
+                        <a href="detalles_producto.html" id="<?php echo $user['usu_id']; ?>">Detalles</a>
                         <a href="#">Actualizar</a>
                         <a href="#" onclick="showAlert()">Eliminar</a>
                     </div>
                 </td>
-            </tr>
+            <?php
+                echo '</tr>';
+            }
+            ?>
         </table>
     </div>
     <!--Fin tabla productos-->
-    <br>
-    <!--Botones-->
-    <div class="container">
-        <div class="btns-form">
-            <a href="#">
-                <button type="button" class="btn-form">
-                    Crear Producto
-                </button>
-            </a>
-            <a href="menu.html">
-                <button type="button" class="btn-form">
-                    Regresar
-                </button>
-            </a>
-        </div>
-    </div>
-    <!--Fin Botones-->
-    <!--Parte de la alerta-->
-    <div id="alertBox" class="alert-box">
+        <!--Parte de la alerta-->
+        <div id="alertBox" class="alert-box">
         <div class="alert-content">
             <span class="close-btn" onclick="closeAlert()">&times;</span>
             <h2>
@@ -145,6 +137,23 @@
         </div>
     </div>
     <!--Fin de la alerta-->
+    <br>
+    <!--Botones-->
+    <div class="container">
+        <div class="btns-form">
+            <a href="#">
+                <button type="button" class="btn-form">
+                    Crear Producto
+                </button>
+            </a>
+            <a href="menu.html">
+                <button type="button" class="btn-form">
+                    Regresar
+                </button>
+            </a>
+        </div>
+    </div>
+    <!--Fin Botones-->
     <br>
     <!--Parte del footer-->
     <footer class="footer">

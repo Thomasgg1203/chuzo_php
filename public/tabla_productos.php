@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,9 +8,23 @@
     <!--Link CSS-->
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <!--Titulo-->
-    <title>Menu || Chuzo</title>
+    <title>Tabla Productos || Chuzo</title>
 </head>
+
 <body class="body">
+    <!--LLamado del controlador-->
+    <?php
+    //Mensaje de error por si pasa algo:
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    //Fin de mensaje de error
+
+    //ruta controlador
+    require('../controller/Controller_productos.php');
+    //Relleno del array productos
+    $productos = get_productos();
+    ?>
+    <!--Fin del llamado controllador-->
     <!--Inicio Navbar-->
     <nav>
         <div class="navbar-1">
@@ -21,7 +36,7 @@
                 <hr>
                 <li class="flex-container">
                     <img src="img/producto-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="tabla_productos.html">Productos</a>
+                    <a href="#">Productos</a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -51,7 +66,8 @@
                 <hr>
             </ul>
             <div class="hamburger">
-                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()" class="logo-navbar-hamburguer">
+                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()"
+                    class="logo-navbar-hamburguer">
                 <img class="logo-menu" src="img/logo.svg" alt="" width="70" height="70">
             </div>
         </div>
@@ -61,97 +77,91 @@
     <!--Parte del logotipo ingreso-->
     <div class="container-registro">
         <div class="flex-item">
-            <img src="img/logo-menu.svg" width="150px" height="150px">
+            <img src="img/producto-navbar.svg" width="150px" height="150px">
         </div>
     </div>
     <div class="container-registro">
         <div class="flex-item fontype">
             <h1 class="title">
-                MENU
+                INFORMACIÓN PRODUCTOS
             </h1>
         </div>
     </div>
     <!--Fin del logotipo ingreso-->
 
-    <!--Parte del carrucel-->
-    <div class="centrado">
-        <div class="container-img">
-            <div class="mySlides">
-                <img src="img/carrucel-1.jpg">
-            </div>
-            <div class="mySlides">
-                <img src="img/carrucel-2.jpg">
-            </div>
-            <div class="mySlides">
-                <img src="img/carrucel-3.jpg">
-            </div>
-            
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    <!--Tabla productos-->
+    <div class="container">
+        <table>
+            <tr>
+                <th colspan="3">Productos</th>
+            </tr>
+            <!--Parte codigo php-->
+            <?php
+            //relleno de datos usuarios
+            foreach ($productos as $prod) {
+                echo '<tr>';
+                echo "<td>" . $prod['prod_id'] . "</td>";
+                echo "<td>" . $prod['prod_nombre'] . "</td>";
+            ?>
+                <td class="dropdown">
+                    <button class="btn-menu-crud">
+                        <img src="img/btn---.svg" width="20" height="20">
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="detalles_producto.php?id=<?php echo $prod['prod_id']; ?>">Detalles</a>
+                        <a href="actualizar_producto.php?id=<?php echo $prod['prod_id']; ?>">Actualizar</a>
+                        <a href="#?id=<?php echo $prod['prod_id']; ?>" onclick="showAlert()">Eliminar</a>
+                    </div>
+                </td>
+            <?php
+                echo '</tr>';
+            }
+            ?>
+            <!--Fin codigo-->
+        </table>
+    </div>
+    <!--Fin tabla productos-->
     
-            <div class="elements">
-                <span class="quadrate" onclick="currentSlide(1)"></span>
-                <span class="quadrate" onclick="currentSlide(2)"></span>
-                <span class="quadrate" onclick="currentSlide(3)"></span>
+    <br>
+    <!--Botones-->
+    <div class="container">
+        <div class="btns-form">
+            <a href="#">
+                <button type="button" class="btn-form">
+                    Crear Producto
+                </button>
+            </a>
+            <a href="menu.html">
+                <button type="button" class="btn-form">
+                    Regresar
+                </button>
+            </a>
+        </div>
+    </div>
+    <!--Fin Botones-->
+    <!--Parte de la alerta-->
+    <div id="alertBox" class="alert-box">
+        <div class="alert-content">
+            <span class="close-btn" onclick="closeAlert()">&times;</span>
+            <h2>
+                ¿Desea eliminar este producto?
+            </h2>
+            <p>Si elimina este producto, no podra volver a encontrarlo en la tabla</p>
+            <div class="btns-form-alerta">
+                <a href="">
+                    <button type="button" class="btn-form">
+                        Eliminar
+                    </button>
+                </a>
+                <a href="#">
+                    <button type="button" onclick="closeAlert()" class="btn-form-cancelar">
+                        Cancelar
+                    </button>
+                </a>
             </div>
         </div>
     </div>
-    <!--fin del carrucel-->
-
-    <!--Todos los botones-->
-    <div class="btn-menu">
-        <div>
-            <a href="">
-                <button class="botones-principales">
-                    <img src="img/btn-usuarios.svg" width="40" height="40">
-                    <h4>
-                        Usuarios&nbsp;&nbsp;
-                    </h4>
-                </button>
-            </a>
-        </div>
-        <div>
-            <a href="tabla_productos.html">
-                <button class="botones-principales">
-                    <img src="img/btn-productos.svg" width="40" height="40">
-                    <h4>
-                        Productos&nbsp;
-                    </h4>
-                </button>
-            </a>
-        </div>
-        <div>
-            <a href="">
-                <button class="botones-principales">
-                    <img src="img/btn-categoria.svg" width="40" height="40">
-                    <h4>
-                        Categorias
-                    </h4>
-                </button>
-            </a>
-        </div>
-        <div>
-            <a href="">
-                <button class="botones-principales">
-                    <img src="img/btn-ordenes.svg" width="40" height="40">
-                    <h4>
-                        Ordenes&nbsp;&nbsp;&nbsp;
-                    </h4>
-                </button>
-            </a>
-        </div>
-        <div>
-            <a href="">
-                <button class="botones-principales">
-                    <img src="img/btn-vender.svg" width="40" height="40">
-                    <h4>
-                        Vender&nbsp;&nbsp;&nbsp;&nbsp;
-                    </h4>
-                </button>
-            </a>
-        </div>
-    </div>
-    <!--Fin de los botones-->
+    <!--Fin de la alerta-->
     <br>
     <!--Parte del footer-->
     <footer class="footer">
