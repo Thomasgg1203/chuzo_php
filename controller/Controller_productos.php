@@ -24,8 +24,27 @@ function get_productos(){
         $con->closeCon();
         return [];
     }
-    //Falta llamarlo a la vistaaaaaaaaa
 }
+//funcion para crear
+function crear_producto($nombre_prod, $precio_prod, $cate_prod){
+    $con = new Conexion();
+    try{
+        $query = "INSERT INTO productos(prod_cate_id, prod_nombre, prod_precio) VALUES ('$cate_prod', '$nombre_prod', '$precio_prod')";
+        // Ejecutar la consulta
+        $con->getCon()->query($query);
+        // Cerrar la conexión
+        $con->closeCon();
+        //retornar respuesta
+        return true;
+    }catch(mysqli_sql_exception $e){
+        echo "Error al crear un producto: ".$e->getMessage();
+        $con->closeCon();
+        return false;
+    }
+}
+
+
+
 //Buscar producto para detalles
     function detalle_producto($id){
     $productos = get_productos();
@@ -65,6 +84,24 @@ function actualizar_producto($id, $nombre, $precio, $cate_prod){
     $con = new Conexion();
     try{
         $query = "UPDATE productos SET prod_nombre = '$nombre', prod_precio = '$precio', prod_cate_id = '$cate_prod' WHERE prod_id = '$id'";
+        
+        // Ejecutar la consulta
+        $con->getCon()->query($query);
+        
+        // Cerrar la conexión
+        $con->closeCon();
+        //retornar respuesta
+        return true;
+    }catch(mysqli_sql_exception $e){
+        echo "Error al actualizar producto: ".$e->getMessage();
+        $con->closeCon();
+        return false;
+    }
+}
+function eliminar_producto($id){
+    $con = new Conexion();
+    try{
+        $query = "DELETE FROM productos WHERE prod_id = '$id'";
         
         // Ejecutar la consulta
         $con->getCon()->query($query);

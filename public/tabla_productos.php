@@ -110,7 +110,9 @@
                     <div class="dropdown-content">
                         <a href="detalles_producto.php?id=<?php echo $prod['prod_id']; ?>">Detalles</a>
                         <a href="actualizar_producto.php?id=<?php echo $prod['prod_id']; ?>">Actualizar</a>
-                        <a href="#?id=<?php echo $prod['prod_id']; ?>" onclick="showAlert()">Eliminar</a>
+                        <form action="post">
+                        <a type="submit" href="#?id=<?php echo $prod['prod_id']; ?>" onclick="showAlert()" value="<?php echo $prod['prod_id']; ?>" name="btn-eliminar">Eliminar</a>
+                        </form>
                     </div>
                 </td>
             <?php
@@ -126,7 +128,7 @@
     <!--Botones-->
     <div class="container">
         <div class="btns-form">
-            <a href="#">
+            <a href="crear_productos.php">
                 <button type="button" class="btn-form">
                     Crear Producto
                 </button>
@@ -141,6 +143,7 @@
     <!--Fin Botones-->
     <!--Parte de la alerta-->
     <div id="alertBox" class="alert-box">
+        ?>
         <div class="alert-content">
             <span class="close-btn" onclick="closeAlert()">&times;</span>
             <h2>
@@ -148,10 +151,12 @@
             </h2>
             <p>Si elimina este producto, no podra volver a encontrarlo en la tabla</p>
             <div class="btns-form-alerta">
-                <a href="">
-                    <button type="button" class="btn-form">
-                        Eliminar
-                    </button>
+                <a href="#">
+                    <form method="post">
+                    <button type="submit" class="btn-form" name="eliminar" value="<?php echo $id ?>">
+                            Eliminar
+                        </button>
+                    </form>
                 </a>
                 <a href="#">
                     <button type="button" onclick="closeAlert()" class="btn-form-cancelar">
@@ -162,6 +167,21 @@
         </div>
     </div>
     <!--Fin de la alerta-->
+    <!--codigo para borrar un producto-->
+    <?php 
+        if (isset($_POST['btn-eliminar'])){
+            $id_pro = $_POST['btn-eliminar'];
+                
+                if(eliminar_producto($id_pro)==true){
+                    echo '<script>alert("Se elimino con exito: '.$id_pro.'")
+                    window.location.replace("../public/tabla_productos.php");
+                    </script>';
+                }else{
+                    echo '<script>alert("No se pudo eliminar el producto")</script>';
+                }
+        }
+    ?>
+    <!--Fin-->
     <br>
     <!--Parte del footer-->
     <footer class="footer">
