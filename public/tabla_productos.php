@@ -12,6 +12,19 @@
 </head>
 
 <body class="body">
+    <!--LLamado del controlador-->
+    <?php
+    //Mensaje de error por si pasa algo:
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    //Fin de mensaje de error
+
+    //ruta controlador
+    require('../controller/Controller_productos.php');
+    //Relleno del array productos
+    $productos = get_productos();
+    ?>
+    <!--Fin del llamado controllador-->
     <!--Inicio Navbar-->
     <nav>
         <div class="navbar-1">
@@ -70,37 +83,57 @@
     <div class="container-registro">
         <div class="flex-item fontype">
             <h1 class="title">
-                DETALLES PRODUCTOS
+                INFORMACIÓN PRODUCTOS
             </h1>
         </div>
     </div>
     <!--Fin del logotipo ingreso-->
-    <!--Detalles del producto-->
-    <div class="container-detalles">
-        <div>
-            <p>
-                ID - Producto
-            </p>
-            <hr>
-            <p>
-                Categoria - Producto
-            </p>
-            <hr>
-            <p>
-                Nombre - Producto
-            </p>
-            <hr>
-            <p>
-                Precio - Producto
-            </p>
-        </div>
+
+    <!--Tabla productos-->
+    <div class="container">
+        <table>
+            <tr>
+                <th colspan="3">Productos</th>
+            </tr>
+            <!--Parte codigo php-->
+            <?php
+            //relleno de datos usuarios
+            foreach ($productos as $prod) {
+                echo '<tr>';
+                echo "<td>" . $prod['prod_id'] . "</td>";
+                echo "<td>" . $prod['prod_nombre'] . "</td>";
+            ?>
+                <td class="dropdown">
+                    <button class="btn-menu-crud">
+                        <img src="img/btn---.svg" width="20" height="20">
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="detalles_producto.php?id=<?php echo $prod['prod_id']; ?>">Detalles</a>
+                        <a href="actualizar_producto.php?id=<?php echo $prod['prod_id']; ?>">Actualizar</a>
+                        <form action="post">
+                        <a type="submit" href="#?id=<?php echo $prod['prod_id']; ?>" onclick="showAlert()" value="<?php echo $prod['prod_id']; ?>" name="btn-eliminar">Eliminar</a>
+                        </form>
+                    </div>
+                </td>
+            <?php
+                echo '</tr>';
+            }
+            ?>
+            <!--Fin codigo-->
+        </table>
     </div>
-    <!--Fin detalles productos-->
+    <!--Fin tabla productos-->
+    
     <br>
     <!--Botones-->
     <div class="container">
         <div class="btns-form">
-            <a href="tabla_productos.html">
+            <a href="crear_productos.php">
+                <button type="button" class="btn-form">
+                    Crear Producto
+                </button>
+            </a>
+            <a href="menu.html">
                 <button type="button" class="btn-form">
                     Regresar
                 </button>
@@ -108,7 +141,47 @@
         </div>
     </div>
     <!--Fin Botones-->
-
+    <!--Parte de la alerta-->
+    <div id="alertBox" class="alert-box">
+        ?>
+        <div class="alert-content">
+            <span class="close-btn" onclick="closeAlert()">&times;</span>
+            <h2>
+                ¿Desea eliminar este producto?
+            </h2>
+            <p>Si elimina este producto, no podra volver a encontrarlo en la tabla</p>
+            <div class="btns-form-alerta">
+                <a href="#">
+                    <form method="post">
+                    <button type="submit" class="btn-form" name="eliminar" value="<?php echo $id ?>">
+                            Eliminar
+                        </button>
+                    </form>
+                </a>
+                <a href="#">
+                    <button type="button" onclick="closeAlert()" class="btn-form-cancelar">
+                        Cancelar
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--Fin de la alerta-->
+    <!--codigo para borrar un producto-->
+    <?php 
+        if (isset($_POST['btn-eliminar'])){
+            $id_pro = $_POST['btn-eliminar'];
+                
+                if(eliminar_producto($id_pro)==true){
+                    echo '<script>alert("Se elimino con exito: '.$id_pro.'")
+                    window.location.replace("../public/tabla_productos.php");
+                    </script>';
+                }else{
+                    echo '<script>alert("No se pudo eliminar el producto")</script>';
+                }
+        }
+    ?>
+    <!--Fin-->
     <br>
     <!--Parte del footer-->
     <footer class="footer">

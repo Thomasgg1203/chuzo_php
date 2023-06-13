@@ -12,6 +12,23 @@
 </head>
 
 <body class="body">
+    <!--Parte del codigo php-->
+    <?php
+    require('../controller/Controller_productos.php');
+    //Mensaje de error por si pasa algo
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    //fin
+    //Toma del id necesario para llenar datos
+    if (isset($_GET['id'])){
+        $id = $_GET['id'];
+        $producto = detalle_producto($id);
+    }else{
+        echo "No se pudo tomar el id";
+    }
+    //Fin de mensaje
+    ?>
+    <!--Fin php-->
     <!--Inicio Navbar-->
     <nav>
         <div class="navbar-1">
@@ -70,51 +87,37 @@
     <div class="container-registro">
         <div class="flex-item fontype">
             <h1 class="title">
-                INFORMACIÓN PRODUCTOS
+                DETALLES PRODUCTOS
             </h1>
         </div>
     </div>
     <!--Fin del logotipo ingreso-->
-
-    <!--Tabla productos-->
-    <div class="container">
-        <table>
-            <tr>
-                <th colspan="3">
-                    Productos
-                </th>
-            </tr>
-            <tr>
-                <td>
-                    ID
-                </td>
-                <td>
-                    Producto(nombre)
-                </td>
-                <td class="dropdown">
-                    <button class="btn-menu-crud">
-                        <img src="img/btn---.svg" width="20" height="20">
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="detalles_producto.html">Detalles</a>
-                        <a href="#">Actualizar</a>
-                        <a href="#" onclick="showAlert()">Eliminar</a>
-                    </div>
-                </td>
-            </tr>
-        </table>
+    <!--Detalles del producto-->
+    <div class="container-detalles">
+        <div>
+            <p>
+               <b>Identificador:</b> <?php echo $producto['prod_id']; ?>
+            </p>
+            <hr>
+            <p>
+               <b>Categoria:</b> <?php echo $producto['prod_cate_id']."--".$producto['cate_nombre']; ?>
+            </p>
+            <hr>
+            <p>
+                <b>Nombre:</b> <?php echo $producto['prod_nombre']; ?>
+            </p>
+            <hr>
+            <p>
+                <b>Precio:</b> <?php echo $producto['prod_precio']; ?>
+            </p>
+        </div>
     </div>
-    <!--Fin tabla productos-->
+    <!--Fin detalles productos-->
     <br>
     <!--Botones-->
     <div class="container">
         <div class="btns-form">
-            <a href="#">
-                <button type="button" class="btn-form">
-                    Crear Producto
-                </button>
-            </a>
-            <a href="menu.html">
+            <a href="tabla_productos.php">
                 <button type="button" class="btn-form">
                     Regresar
                 </button>
@@ -122,29 +125,7 @@
         </div>
     </div>
     <!--Fin Botones-->
-    <!--Parte de la alerta-->
-    <div id="alertBox" class="alert-box">
-        <div class="alert-content">
-            <span class="close-btn" onclick="closeAlert()">&times;</span>
-            <h2>
-                ¿Desea eliminar este producto?
-            </h2>
-            <p>Si elimina este producto, no podra volver a encontrarlo en la tabla</p>
-            <div class="btns-form-alerta">
-                <a href="">
-                    <button type="button" class="btn-form">
-                        Eliminar
-                    </button>
-                </a>
-                <a href="#">
-                    <button type="button" onclick="closeAlert()" class="btn-form-cancelar">
-                        Cancelar
-                    </button>
-                </a>
-            </div>
-        </div>
-    </div>
-    <!--Fin de la alerta-->
+
     <br>
     <!--Parte del footer-->
     <footer class="footer">

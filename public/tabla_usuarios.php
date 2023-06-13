@@ -1,13 +1,27 @@
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Link CSS-->
     <link rel="stylesheet" type="text/css" href="styles/style.css">
-    <title>Chuzo || Actualizar Producto</title>
+    <title>Chuzo ||Tabla Usuarios</title>
 </head>
+
 <body class="body">
+        <!--El archivo que se requiere-->
+        <?php
+        require('../controller/Controller_usuarios.php');
+        //llenar datos
+        //consumir metodo de recibir usuarios
+        $usuarios = get_usuarios();
+        ?>
+        <!--fin archivo-->
     <!--Inicio Navbar-->
     <nav>
         <div class="navbar-1">
@@ -19,7 +33,7 @@
                 <hr>
                 <li class="flex-container">
                     <img src="img/producto-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="tabla_productos.html">Productos</a>
+                    <a href="#">Productos</a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -49,9 +63,8 @@
                 <hr>
             </ul>
             <div class="hamburger">
-                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()"
-                    class="logo-navbar-hamburguer">
-                <img class="logo-menu" src="img/logo.svg" width="70" height="70">
+                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()" class="logo-navbar-hamburguer">
+                <img class="logo-menu" src="img/logo.svg" alt="" width="70" height="70">
             </div>
         </div>
     </nav>
@@ -60,52 +73,87 @@
     <!--Parte del logotipo ingreso-->
     <div class="container-registro">
         <div class="flex-item">
-            <img src="img/producto-navbar.svg" width="150px" height="150px">
+            <img src="img/usuarios-navbar.svg" width="150px" height="150px">
         </div>
     </div>
     <div class="container-registro">
         <div class="flex-item fontype">
             <h1 class="title">
-                ACTUALIZAR PRODUCTOS
+                INFORMACIÓN USUARIOS
             </h1>
         </div>
     </div>
     <!--Fin del logotipo ingreso-->
-
-        <!--Formulario producto-->
-        <div class="container">
-            <form>
-                <div class="title-form">
-                    <h3 class="title-h4">Nombre Producto</h3>
-                </div>
-                <div>
-                    <input class="input" type="text" class="input-with-logo">
-                </div>
-                <div class="title-form">
-                    <h3 class="title-h4">Precio Producto</h3>
-                </div>
-                <div>
-                    <input class="input" type="text" class="input-with-logo">
-                </div>
-                <div class="title-form">
-                    <h3 class="title-h4">Categoria Producto</h3>
-                </div>
-                <div>
-                    <select name="select" class="input" required>
-                        <option value="value1">Value 1</option>
-                        <option value="value2">Value 2</option>
-                        <option value="value3">Value 3</option>
-                      </select>
-                </div>
-                <br><br>
-                <div class="btns-form">
-                    <button type="submit" class="btn-form">Actualizar</button>
-                    <a href="index.html"><button type="section" class="btn-form-cancelar">Cancelar</button></a>
-                </div>
-            </form>
+    <!--Tabla productos-->
+    <div class="container">
+        <table>
+            <tr>
+                <th colspan="3">Usuarios</th>
+            </tr>
+            <?php
+            //relleno de datos usuarios
+            foreach ($usuarios as $user) {
+                echo '<tr>';
+                echo "<td>" . $user['usu_id'] . "</td>";
+                echo "<td>" . $user['usu_documento'] . "</td>";
+            ?>
+                <td class="dropdown">
+                    <button class="btn-menu-crud">
+                        <img src="img/btn---.svg" width="20" height="20">
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="detalles_producto.html" id="<?php echo $user['usu_id']; ?>">Detalles</a>
+                        <a href="#">Actualizar</a>
+                        <a href="#" onclick="showAlert()">Eliminar</a>
+                    </div>
+                </td>
+            <?php
+                echo '</tr>';
+            }
+            ?>
+        </table>
+    </div>
+    <!--Fin tabla productos-->
+        <!--Parte de la alerta-->
+        <div id="alertBox" class="alert-box">
+        <div class="alert-content">
+            <span class="close-btn" onclick="closeAlert()">&times;</span>
+            <h2>
+                ¿Desea eliminar este producto?
+            </h2>
+            <p>Si elimina este producto, no podra volver a encontrarlo en la tabla</p>
+            <div class="btns-form-alerta">
+                <a href="">
+                    <button type="button" class="btn-form">
+                        Eliminar
+                    </button>
+                </a>
+                <a href="#">
+                    <button type="button" onclick="closeAlert()" class="btn-form-cancelar">
+                        Cancelar
+                    </button>
+                </a>
+            </div>
         </div>
-        <!--Fin formulario Crear producto-->
-
+    </div>
+    <!--Fin de la alerta-->
+    <br>
+    <!--Botones-->
+    <div class="container">
+        <div class="btns-form">
+            <a href="#">
+                <button type="button" class="btn-form">
+                    Crear Producto
+                </button>
+            </a>
+            <a href="menu.html">
+                <button type="button" class="btn-form">
+                    Regresar
+                </button>
+            </a>
+        </div>
+    </div>
+    <!--Fin Botones-->
     <br>
     <!--Parte del footer-->
     <footer class="footer">

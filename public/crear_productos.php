@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Link CSS-->
     <link rel="stylesheet" type="text/css" href="styles/style.css">
-    <!--Titulo-->
-    <title>Menu || Chuzo</title>
+    <title>Chuzo || Crear Producto</title>
 </head>
+
 <body class="body">
+    <?php
+    //Mensaje de error por si pasa algo
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    //fin
+    require('../controller/Controller_productos.php');
+    $cate = get_categoria();
+    //Fin de mensaje
+    ?>
     <!--Inicio Navbar-->
     <nav>
         <div class="navbar-1">
@@ -52,7 +61,7 @@
             </ul>
             <div class="hamburger">
                 <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()" class="logo-navbar-hamburguer">
-                <img class="logo-menu" src="img/logo.svg" alt="" width="70" height="70">
+                <img class="logo-menu" src="img/logo.svg" width="70" height="70">
             </div>
         </div>
     </nav>
@@ -61,97 +70,70 @@
     <!--Parte del logotipo ingreso-->
     <div class="container-registro">
         <div class="flex-item">
-            <img src="img/logo-menu.svg" width="150px" height="150px">
+            <img src="img/producto-navbar.svg" width="150px" height="150px">
         </div>
     </div>
     <div class="container-registro">
         <div class="flex-item fontype">
             <h1 class="title">
-                MENU
+                CREAR PRODUCTOS
             </h1>
         </div>
     </div>
     <!--Fin del logotipo ingreso-->
 
-    <!--Parte del carrucel-->
-    <div class="centrado">
-        <div class="container-img">
-            <div class="mySlides">
-                <img src="img/carrucel-1.jpg">
+    <!--Formulario producto-->
+    <div class="container">
+        <form method="post">
+            <div class="title-form">
+                <h3 class="title-h4">Nombre Producto</h3>
             </div>
-            <div class="mySlides">
-                <img src="img/carrucel-2.jpg">
+            <div>
+                <input class="input" type="text" class="input-with-logo" name="nombre" minlength="1" required>
             </div>
-            <div class="mySlides">
-                <img src="img/carrucel-3.jpg">
+            <div class="title-form">
+                <h3 class="title-h4">Precio Producto</h3>
             </div>
-            
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-    
-            <div class="elements">
-                <span class="quadrate" onclick="currentSlide(1)"></span>
-                <span class="quadrate" onclick="currentSlide(2)"></span>
-                <span class="quadrate" onclick="currentSlide(3)"></span>
+            <div>
+                <input class="input" type="text" class="input-with-logo" name="precio" required minlength="1">
             </div>
-        </div>
+            <div class="title-form">
+                <h3 class="title-h4">Categoria Producto</h3>
+            </div>
+            <div>
+                <select name="select" class="input" required>
+                    <?php
+                    foreach ($cate as $c) {
+                    ?>
+                            <option value="<?php echo $c['cate_id']; ?>"><?php echo $c['cate_id'] . " -- " . $c['cate_nombre']; ?></option>
+                    <?php
+                    }
+                    ?>
+                </select>
+            </div>
+            <br><br>
+            <div class="btns-form">
+                <button type="submit" class="btn-form" name="crear">Crear</button>
+                <a href="tabla_productos.php"><button type="button" class="btn-form-cancelar">Cancelar</button></a>
+            </div>
+        </form>
     </div>
-    <!--fin del carrucel-->
-
-    <!--Todos los botones-->
-    <div class="btn-menu">
-        <div>
-            <a href="">
-                <button class="botones-principales">
-                    <img src="img/btn-usuarios.svg" width="40" height="40">
-                    <h4>
-                        Usuarios&nbsp;&nbsp;
-                    </h4>
-                </button>
-            </a>
-        </div>
-        <div>
-            <a href="tabla_productos.html">
-                <button class="botones-principales">
-                    <img src="img/btn-productos.svg" width="40" height="40">
-                    <h4>
-                        Productos&nbsp;
-                    </h4>
-                </button>
-            </a>
-        </div>
-        <div>
-            <a href="">
-                <button class="botones-principales">
-                    <img src="img/btn-categoria.svg" width="40" height="40">
-                    <h4>
-                        Categorias
-                    </h4>
-                </button>
-            </a>
-        </div>
-        <div>
-            <a href="">
-                <button class="botones-principales">
-                    <img src="img/btn-ordenes.svg" width="40" height="40">
-                    <h4>
-                        Ordenes&nbsp;&nbsp;&nbsp;
-                    </h4>
-                </button>
-            </a>
-        </div>
-        <div>
-            <a href="">
-                <button class="botones-principales">
-                    <img src="img/btn-vender.svg" width="40" height="40">
-                    <h4>
-                        Vender&nbsp;&nbsp;&nbsp;&nbsp;
-                    </h4>
-                </button>
-            </a>
-        </div>
-    </div>
-    <!--Fin de los botones-->
+    <!--Fin formulario Crear producto-->
+        <?php
+            if(isset($_POST['crear'])){
+                //validar los datos
+                $nombre_prod = $_POST['nombre'] ?? '';
+                $precio_prod = $_POST['precio'] ?? '';
+                $cate_prod   = $_POST['select'] ?? '';
+                if(crear_producto($nombre_prod, $precio_prod, $cate_prod)==true){
+                    echo '<script>alert("Se creo con exito el producto")
+                    window.location.replace("../public/tabla_productos.php");
+                    </script>';
+                }else{
+                    echo '<script>alert("No se puedo crear el producto")</script>';
+                }
+            }
+        ?>
     <br>
     <!--Parte del footer-->
     <footer class="footer">

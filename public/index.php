@@ -52,23 +52,23 @@
 
     <!--Formulario-->
     <div class="container">
-        <form>
+        <form method="POST" action="menu.php">
             <div class="title-form">
                 <h3 class="title-h4">Correo</h3>
             </div>
             <div>
-                <input class="input" type="email" class="input-with-logo" multiple>
+                <input class="input" type="email" class="input-with-logo" id="username" name="username" multiple required>
             </div>
             <div class="title-form">
                 <h3 class="title-h4">Contraseña</h3>
             </div>
             <div class="logo-input">
-                <input type="password" class="input">
+                <input type="password" class="input" id="password" name="password" required>
             </div>
             <br><br>
             <div class="btns-form">
                 <button type="submit" class="btn-form">Ingresar</button>
-                <a href="registro.html"><button type="button" class="btn-form">Registrarse</button></a>
+                <a href="registro.html"><button type="button" class="btn-form" name="enviar">Registrarse</button></a>
             </div>
         </form>
     </div>
