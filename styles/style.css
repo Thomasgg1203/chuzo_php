@@ -385,6 +385,56 @@ table td button img{
   width: 90%;
 }
 
+/* Parte de la ventana de eliminado */
+.alert-box {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.alert-content {
+  background-color: #fafafa;
+  margin: 15% auto;
+  padding: 20px;
+  width: 300px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  color: #717171;
+}
+.alert-content h2{
+  color: #060608;
+}
+
+.close-btn {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
+button {
+  margin-top: 20px;
+}
+.btns-form-alerta{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+/* Fin de la ventana */
+
+
 /* Parte de responsive de la tabla */
 @media screen and (max-width: 500px) {
   table {
