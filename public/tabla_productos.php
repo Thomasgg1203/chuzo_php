@@ -18,7 +18,6 @@
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
     //Fin de mensaje de error
-
     //ruta controlador
     require('../controller/Controller_productos.php');
     //Relleno del array productos
@@ -66,8 +65,7 @@
                 <hr>
             </ul>
             <div class="hamburger">
-                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()"
-                    class="logo-navbar-hamburguer">
+                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()" class="logo-navbar-hamburguer">
                 <img class="logo-menu" src="img/logo.svg" alt="" width="70" height="70">
             </div>
         </div>
@@ -110,8 +108,11 @@
                     <div class="dropdown-content">
                         <a href="detalles_producto.php?id=<?php echo $prod['prod_id']; ?>">Detalles</a>
                         <a href="actualizar_producto.php?id=<?php echo $prod['prod_id']; ?>">Actualizar</a>
-                        <form action="post">
-                        <a type="submit" href="#?id=<?php echo $prod['prod_id']; ?>" onclick="showAlert()" value="<?php echo $prod['prod_id']; ?>" name="btn-eliminar">Eliminar</a>
+
+                        <form method="post">
+                        <button type="submit" href="#?id=<?php echo $prod['prod_id']; ?>" value="<?php echo $prod['prod_id']; ?>" name="btn-eliminar" class="btn-sin-estilo">
+                            Eliminar
+                        </button>
                         </form>
                     </div>
                 </td>
@@ -123,7 +124,7 @@
         </table>
     </div>
     <!--Fin tabla productos-->
-    
+
     <br>
     <!--Botones-->
     <div class="container">
@@ -141,45 +142,40 @@
         </div>
     </div>
     <!--Fin Botones-->
-    <!--Parte de la alerta-->
-    <div id="alertBox" class="alert-box">
-        ?>
-        <div class="alert-content">
-            <span class="close-btn" onclick="closeAlert()">&times;</span>
-            <h2>
-                ¿Desea eliminar este producto?
-            </h2>
-            <p>Si elimina este producto, no podra volver a encontrarlo en la tabla</p>
-            <div class="btns-form-alerta">
-                <a href="#">
+            <!--Parte de la alerta-->
+            <div id="alertBox" class="alert-box">
+            ?>
+            <div class="alert-content">
+                <span class="close-btn" onclick="closeAlert()">&times;</span>
+                <h2>
+                    ¿Desea eliminar este producto?
+                </h2>
+                <p>Si elimina este producto, no podra volver a encontrarlo en la tabla</p>
+                <div class="btns-form-alerta">
                     <form method="post">
-                    <button type="submit" class="btn-form" name="eliminar" value="<?php echo $id ?>">
+                        <button type="submit" class="btn-form" name="eliminar">
                             Eliminar
                         </button>
                     </form>
-                </a>
-                <a href="#">
                     <button type="button" onclick="closeAlert()" class="btn-form-cancelar">
                         Cancelar
                     </button>
-                </a>
+                </div>
             </div>
         </div>
-    </div>
-    <!--Fin de la alerta-->
+        <!--Fin de la alerta-->
     <!--codigo para borrar un producto-->
-    <?php 
-        if (isset($_POST['btn-eliminar'])){
-            $id_pro = $_POST['btn-eliminar'];
-                
-                if(eliminar_producto($id_pro)==true){
-                    echo '<script>alert("Se elimino con exito: '.$id_pro.'")
-                    window.location.replace("../public/tabla_productos.php");
-                    </script>';
-                }else{
-                    echo '<script>alert("No se pudo eliminar el producto")</script>';
-                }
-        }
+    <?php
+        if(isset($_POST['btn-eliminar'])){
+            $id_el = $_POST['btn-eliminar'] ?? '';
+            if (eliminar_producto($id_el) == true) {
+                echo '<script>alert("Se elimino con exito: ' . $id_el . '")
+                        window.location.replace("../public/tabla_productos.php");
+                        </script>';
+            } else {
+                echo '<script>alert("No se pudo eliminar el producto")</script>';
+            }
+    }
     ?>
     <!--Fin-->
     <br>
