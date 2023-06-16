@@ -27,7 +27,23 @@ function get_usuarios()
         return [];
     }
 }
-//metodo detalle
+function crear_usuario($doc, $nom, $ape, $email, $cont){
+    $con = new Conexion();
+    try{
+        $query = "INSERT INTO usuarios(usu_documento, usu_nombre, usu_apellido, usu_email, usu_contrasenia) 
+        VALUES ('$doc','$nom','$ape','$email','$cont')";
+        // Ejecutar la consulta
+        $con->getCon()->query($query);
+        // Cerrar la conexión
+        $con->closeCon();
+        //retornar respuesta
+        return true;
+    }catch(mysqli_sql_exception $e){
+        echo "Error al crear un usuario: ".$e->getMessage();
+        $con->closeCon();
+        return false;
+    }
+}
 
 
 

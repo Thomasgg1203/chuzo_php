@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
-
+<?php
+    session_start();
+    // Verificar si el usuario ha iniciado sesión
+    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+        // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
+        echo "<script>window.location.href = 'index.php';</script>";
+    }
+?>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -30,7 +37,7 @@
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="#">Perfil</a>
+                    <a href="#"><?php echo $_SESSION['nombre'];?></a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -40,32 +47,33 @@
                 <hr>
                 <li class="flex-container">
                     <img src="img/usuarios-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Usuarios</a>
+                    <a href="tabla_usuarios.php">Usuarios</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/ordenes-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Ordenes</a>
+                    <a href="#">Ordenes</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/categoria-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Categoria</a>
+                    <a href="#">Categoria</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/vender-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Vender</a>
+                    <a href="#">Vender</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/salir-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Salir</a>
+                    <a href="index.php">Salir</a>
                 </li>
                 <hr>
             </ul>
             <div class="hamburger">
-                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()" class="logo-navbar-hamburguer">
+                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()"
+                    class="logo-navbar-hamburguer">
                 <img class="logo-menu" src="img/logo.svg" alt="" width="70" height="70">
             </div>
         </div>
@@ -100,7 +108,7 @@
                 echo '<tr>';
                 echo "<td>" . $prod['prod_id'] . "</td>";
                 echo "<td>" . $prod['prod_nombre'] . "</td>";
-            ?>
+                ?>
                 <td class="dropdown">
                     <button class="btn-menu-crud">
                         <img src="img/btn---.svg" width="20" height="20">
@@ -109,14 +117,15 @@
                         <a href="detalles_producto.php?id=<?php echo $prod['prod_id']; ?>">Detalles</a>
                         <a href="actualizar_producto.php?id=<?php echo $prod['prod_id']; ?>">Actualizar</a>
 
-                        <form method="post">
-                        <button type="submit" href="#?id=<?php echo $prod['prod_id']; ?>" value="<?php echo $prod['prod_id']; ?>" name="btn-eliminar" class="btn-sin-estilo">
-                            Eliminar
-                        </button>
+                        <form method="post" action="eliminar_producto.php">
+                            <button type="submit" href="#?id=<?php echo $prod['prod_id']; ?>"
+                                value="<?php echo $prod['prod_id']; ?>" name="btn-eliminar" class="btn-sin-estilo">
+                                Eliminar
+                            </button>
                         </form>
                     </div>
                 </td>
-            <?php
+                <?php
                 echo '</tr>';
             }
             ?>
@@ -134,7 +143,7 @@
                     Crear Producto
                 </button>
             </a>
-            <a href="menu.html">
+            <a href="menu.php">
                 <button type="button" class="btn-form">
                     Regresar
                 </button>
@@ -142,42 +151,6 @@
         </div>
     </div>
     <!--Fin Botones-->
-            <!--Parte de la alerta-->
-            <div id="alertBox" class="alert-box">
-            ?>
-            <div class="alert-content">
-                <span class="close-btn" onclick="closeAlert()">&times;</span>
-                <h2>
-                    ¿Desea eliminar este producto?
-                </h2>
-                <p>Si elimina este producto, no podra volver a encontrarlo en la tabla</p>
-                <div class="btns-form-alerta">
-                    <form method="post">
-                        <button type="submit" class="btn-form" name="eliminar">
-                            Eliminar
-                        </button>
-                    </form>
-                    <button type="button" onclick="closeAlert()" class="btn-form-cancelar">
-                        Cancelar
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!--Fin de la alerta-->
-    <!--codigo para borrar un producto-->
-    <?php
-        if(isset($_POST['btn-eliminar'])){
-            $id_el = $_POST['btn-eliminar'] ?? '';
-            if (eliminar_producto($id_el) == true) {
-                echo '<script>alert("Se elimino con exito: ' . $id_el . '")
-                        window.location.replace("../public/tabla_productos.php");
-                        </script>';
-            } else {
-                echo '<script>alert("No se pudo eliminar el producto")</script>';
-            }
-    }
-    ?>
-    <!--Fin-->
     <br>
     <!--Parte del footer-->
     <footer class="footer">

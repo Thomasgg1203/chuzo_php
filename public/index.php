@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-
+<?php session_destroy(); ?>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,7 +23,7 @@
                 <hr>
                 <li class="flex-container">
                     <img src="img/registro-1.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Registro</a>
+                    <a href="registro.php">Registro</a>
                 </li>
                 <hr>
             </ul>
@@ -52,12 +52,12 @@
 
     <!--Formulario-->
     <div class="container">
-        <form method="POST" action="menu.php">
+        <form method="get" action="login_process.php">
             <div class="title-form">
                 <h3 class="title-h4">Correo</h3>
             </div>
             <div>
-                <input class="input" type="email" class="input-with-logo" id="username" name="username" multiple required>
+                <input class="input" type="email" class="input-with-logo" id="username" name="email" multiple required>
             </div>
             <div class="title-form">
                 <h3 class="title-h4">Contraseña</h3>
@@ -68,7 +68,7 @@
             <br><br>
             <div class="btns-form">
                 <button type="submit" class="btn-form">Ingresar</button>
-                <a href="registro.html"><button type="button" class="btn-form" name="enviar">Registrarse</button></a>
+                <a href="registro.php"><button type="button" class="btn-form" name="enviar">Registrarse</button></a>
             </div>
         </form>
     </div>
@@ -78,7 +78,7 @@
     <footer class="footer">
         <div class="logo-section">
             <div>
-                <img src="img/Logo-blanco-footer.svg" alt="Logo" class="logo">
+                <img src="img/Logo-blanco-footer.svg" class="logo">
             </div>
         </div>
         <div class="text-section">
@@ -87,9 +87,9 @@
             <h4>Thomas Giraldo García</h4>
         </div>
         <div class="icon-section">
-            <img src="img/facebook-footer.svg" alt="Icono 1" class="icon">
-            <img src="img/Whatsapp-footer.svg" alt="Icono 2" class="icon">
-            <img src="img/Instagram-footer.svg" alt="Icono 3" class="icon">
+            <img src="img/facebook-footer.svg" class="icon">
+            <img src="img/Whatsapp-footer.svg" class="icon">
+            <img src="img/Instagram-footer.svg" class="icon">
         </div>
     </footer>
     <!--Fin footer-->
