@@ -1,6 +1,16 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+session_start();
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
+    echo "<script>window.location.href = 'index.php';</script>";
+}
+if($_SESSION['estado'] == 0){
+    echo "<script>alert('No eres admin')</script>";
+    echo "<script>window.location.href = 'index.php';</script>";    
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

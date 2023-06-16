@@ -43,8 +43,6 @@ function crear_producto($nombre_prod, $precio_prod, $cate_prod){
     }
 }
 
-
-
 //Buscar producto para detalles
     function detalle_producto($id){
     $productos = get_productos();

@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
+<?php 
+session_destroy(); 
+require('../controller/Controller_usuarios.php');
+?>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -51,46 +54,62 @@
 
     <!--Formulario-->
     <div class="container">
-        <form>
+        <form method="post">
             <div class="title-form">
                 <h3 class="title-h4">Documento</h3>
             </div>
             <div>
-                <input class="input" type="text" class="input-with-logo">
+                <input class="input" type="text" class="input-with-logo" name="documento" required maxlength="15">
             </div>
             <div class="title-form">
                 <h3 class="title-h4">Nombre</h3>
             </div>
             <div>
-                <input class="input" type="text" class="input-with-logo">
+                <input class="input" type="text" class="input-with-logo" name="nombre" required maxlength="30">
             </div>
             <div class="title-form">
                 <h3 class="title-h4">Apellido</h3>
             </div>
             <div>
-                <input class="input" type="text" class="input-with-logo">
+                <input class="input" type="text" class="input-with-logo" name="apellido" required maxlength="30">
             </div>
             <div class="title-form">
                 <h3 class="title-h4">Correo</h3>
             </div>
             <div>
-                <input class="input" type="email" class="input-with-logo" multiple>
+                <input class="input" type="email" class="input-with-logo" multiple name="email" required maxlength="30">
             </div>
             <div class="title-form">
                 <h3 class="title-h4">Contraseña</h3>
             </div>
             <div class="logo-input">
-                <input type="password" class="input">
+                <input type="password" class="input" name="contra" required maxlength="8">
             </div>
             <br><br>
             <div class="btns-form">
-                <button type="submit" class="btn-form">Ok</button>
-                <a href="index.html"><button type="button" class="btn-form-cancelar">Cancelar</button></a>
+                <button type="submit" class="btn-form" name="enviar">Ok</button>
+                <a href="index.php"><button type="button" class="btn-form-cancelar">Cancelar</button></a>
             </div>
         </form>
     </div>
     <!--Fin formulario-->
-
+    <!--Parte de envio de datos-->
+    <?php
+    if(isset($_POST['enviar'])){
+        $doc = $_POST['documento'];
+        $nom = $_POST['nombre'];
+        $ape = $_POST['apellido'];
+        $ema = $_POST['email'];
+        $con = $_POST['contra'];
+        if(crear_usuario($doc, $nom, $ape, $ema, $con)){
+            echo "<script>alert('Se creo correctamente')</script>";
+            echo "<script>window.location.href = 'index.php';</script>";
+        }else{
+            echo "<script>alert('Se produjo un error al registrarse')</script>";
+        }
+    }
+    ?>
+    <!--Fin de envio de datos-->
     <br>
     <!--Parte del footer-->
     <footer class="footer">

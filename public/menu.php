@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
+    echo "<script>window.location.href = 'index.php';</script>";
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -16,37 +25,37 @@
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="#">Perfil</a>
+                    <a href="#"><?php echo $_SESSION['nombre'];?></a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/producto-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="tabla_productos.html">Productos</a>
+                    <a href="tabla_productos.php">Productos</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/usuarios-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Usuarios</a>
+                    <a href="tabla_usuarios.php">Usuarios</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/ordenes-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Ordenes</a>
+                    <a href="#">Ordenes</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/categoria-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Categoria</a>
+                    <a href="#">Categoria</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/vender-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Vender</a>
+                    <a href="#">Vender</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/salir-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Salir</a>
+                    <a href="index.php">Salir</a>
                 </li>
                 <hr>
             </ul>
@@ -101,7 +110,7 @@
     <!--Todos los botones-->
     <div class="btn-menu">
         <div>
-            <a href="">
+            <a href="tabla_usuarios.php">
                 <button class="botones-principales">
                     <img src="img/btn-usuarios.svg" width="40" height="40">
                     <h4>
@@ -121,7 +130,7 @@
             </a>
         </div>
         <div>
-            <a href="">
+            <a href="#">
                 <button class="botones-principales">
                     <img src="img/btn-categoria.svg" width="40" height="40">
                     <h4>
@@ -131,7 +140,7 @@
             </a>
         </div>
         <div>
-            <a href="">
+            <a href="#">
                 <button class="botones-principales">
                     <img src="img/btn-ordenes.svg" width="40" height="40">
                     <h4>
@@ -141,7 +150,7 @@
             </a>
         </div>
         <div>
-            <a href="">
+            <a href="#">
                 <button class="botones-principales">
                     <img src="img/btn-vender.svg" width="40" height="40">
                     <h4>
