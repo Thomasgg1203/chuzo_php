@@ -45,8 +45,17 @@ function crear_usuario($doc, $nom, $ape, $email, $cont){
     }
 }
 
-
-
-//Para usar la vista del controlador
-// require('ver_usuarios.php');
+//Buscar producto para detalles
+function detalles_usuario($id){
+    $usuarios = get_usuarios();
+    // Variable detalles
+    $deta = [];
+    foreach($usuarios as $us){
+        if($id == $us['usu_id']){
+            $deta = $us;
+            break;
+        }
+    }
+    return $deta;
+}
 ?>

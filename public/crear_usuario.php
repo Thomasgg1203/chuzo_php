@@ -1,6 +1,9 @@
+<!DOCTYPE html>
+<html lang="es">
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+require('../controller/Controller_usuarios.php');
 session_start();
 // Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -12,26 +15,16 @@ if($_SESSION['estado'] == 0){
     echo "<script>window.location.href = 'index.php';</script>";    
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Link CSS-->
     <link rel="stylesheet" type="text/css" href="styles/style.css">
-    <title>Chuzo ||Tabla Usuarios</title>
+    <title>Chuzo || Crear Usuario</title>
 </head>
 
 <body class="body">
-        <!--El archivo que se requiere-->
-        <?php
-        require('../controller/Controller_usuarios.php');
-        //llenar datos
-        //consumir metodo de recibir usuarios
-        $usuarios = get_usuarios();
-        ?>
-        <!--fin archivo-->
     <!--Inicio Navbar-->
     <nav>
         <div class="navbar-1">
@@ -43,32 +36,32 @@ if($_SESSION['estado'] == 0){
                 <hr>
                 <li class="flex-container">
                     <img src="img/producto-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="#">Productos</a>
+                    <a href="tabla_productos.php">Productos</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/usuarios-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Usuarios</a>
+                    <a href="tabla_usuarios.php">Usuarios</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/ordenes-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Ordenes</a>
+                    <a href="#">Ordenes</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/categoria-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Categoria</a>
+                    <a href="#">Categoria</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/vender-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Vender</a>
+                    <a href="#">Vender</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/salir-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Salir</a>
+                    <a href="index.php">Salir</a>
                 </li>
                 <hr>
             </ul>
@@ -89,82 +82,70 @@ if($_SESSION['estado'] == 0){
     <div class="container-registro">
         <div class="flex-item fontype">
             <h1 class="title">
-                INFORMACIÓN USUARIOS
+                CREAR USUARIO
             </h1>
         </div>
     </div>
     <!--Fin del logotipo ingreso-->
-    <!--Tabla productos-->
+
+    <!--Formulario-->
     <div class="container">
-        <table>
-            <tr>
-                <th colspan="4">Usuarios</th>
-            </tr>
-            <?php
-            //relleno de datos usuarios
-            foreach ($usuarios as $user) {
-                echo '<tr>';
-                echo "<td>" . $user['usu_id'] . "</td>";
-                echo "<td>" . $user['usu_documento'] . "</td>";
-                echo "<td>" . $user['usu_nombre'] . "</td>";
-            ?>
-                <td class="dropdown">
-                    <button class="btn-menu-crud">
-                        <img src="img/btn---.svg" width="20" height="20">
-                    </button>
-                    <div class="dropdown-content">
-                    <a href="detalles_usuario.php?id=<?php echo $user['usu_id']; ?>">Detalles</a>
-                        <a href="#">Actualizar</a>
-                        <a href="#" onclick="showAlert()">Eliminar</a>
-                    </div>
-                </td>
-            <?php
-                echo '</tr>';
-            }
-            ?>
-        </table>
-    </div>
-    <!--Fin tabla productos-->
-        <!--Parte de la alerta-->
-        <!-- <div id="alertBox" class="alert-box">
-        <div class="alert-content">
-            <span class="close-btn" onclick="closeAlert()">&times;</span>
-            <h2>
-                ¿Desea eliminar este producto?
-            </h2>
-            <p>Si elimina este producto, no podra volver a encontrarlo en la tabla</p>
-            <div class="btns-form-alerta">
-                <a href="">
-                    <button type="button" class="btn-form">
-                        Eliminar
-                    </button>
-                </a>
-                <a href="#">
-                    <button type="button" onclick="closeAlert()" class="btn-form-cancelar">
-                        Cancelar
-                    </button>
-                </a>
+        <form method="post">
+            <div class="title-form">
+                <h3 class="title-h4">Documento</h3>
             </div>
-        </div>
-    </div> -->
-    <!--Fin de la alerta-->
-    <br>
-    <!--Botones-->
-    <div class="container">
-        <div class="btns-form">
-            <a href="crear_usuario.php">
-                <button type="button" class="btn-form">
-                    Crear usuario
-                </button>
-            </a>
-            <a href="menu.html">
-                <button type="button" class="btn-form">
-                    Regresar
-                </button>
-            </a>
-        </div>
+            <div>
+                <input class="input" type="text" class="input-with-logo" name="documento" required maxlength="15">
+            </div>
+            <div class="title-form">
+                <h3 class="title-h4">Nombre</h3>
+            </div>
+            <div>
+                <input class="input" type="text" class="input-with-logo" name="nombre" required maxlength="30">
+            </div>
+            <div class="title-form">
+                <h3 class="title-h4">Apellido</h3>
+            </div>
+            <div>
+                <input class="input" type="text" class="input-with-logo" name="apellido" required maxlength="30">
+            </div>
+            <div class="title-form">
+                <h3 class="title-h4">Correo</h3>
+            </div>
+            <div>
+                <input class="input" type="email" class="input-with-logo" multiple name="email" required maxlength="30">
+            </div>
+            <div class="title-form">
+                <h3 class="title-h4">Contraseña</h3>
+            </div>
+            <div class="logo-input">
+                <input type="password" class="input" name="contra" required maxlength="8">
+            </div>
+            <br><br>
+            <div class="btns-form">
+                <button type="submit" class="btn-form" name="enviar">Ok</button>
+                <a href="tabla_usuarios.php"><button type="button" class="btn-form">Regresar</button></a>
+            </div>
+        </form>
     </div>
-    <!--Fin Botones-->
+    <!--Fin formulario-->
+    <!--Parte de envio de datos-->
+    <?php
+    if(isset($_POST['enviar'])){
+        $doc = $_POST['documento'];
+        $nom = $_POST['nombre'];
+        $ape = $_POST['apellido'];
+        $ema = $_POST['email'];
+        $con = $_POST['contra'];
+        if(crear_usuario($doc, $nom, $ape, $ema, $con)){
+            echo "<script>alert('Se creo correctamente')</script>";
+            echo "<script>window.location.href = 'tabla_usuarios.php';</script>";
+        }else{
+            echo "<script>alert('No se pudo crear')</script>";
+        }
+    }
+    ?>
+    <!--Fin de envio de datos-->
     <br>
     <!--Parte del footer-->
     <footer class="footer">
