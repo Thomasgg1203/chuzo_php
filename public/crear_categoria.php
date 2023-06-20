@@ -1,12 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+require('../controller/Controller_categorias.php');
+session_start();
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
+    echo "<script>window.location.href = 'index.php';</script>";
+}
+?>
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Link CSS-->
     <link rel="stylesheet" type="text/css" href="styles/style.css">
-    <title>Chuzo || Crear Producto</title>
+    <title>Chuzo || Crear Categoria</title>
 </head>
 
 <body class="body">
@@ -16,44 +27,43 @@
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="#">Perfil</a>
+                    <a href="detalles_perfil.php"><?php echo $_SESSION['nombre'];?></a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/producto-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="tabla_productos.html">Productos</a>
+                    <a href="tabla_productos.php">Productos</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/usuarios-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Usuarios</a>
+                    <a href="tabla_usuarios.php">Usuarios</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/ordenes-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Ordenes</a>
+                    <a href="tabla_ordenes.php">Ordenes</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/categoria-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Categoria</a>
+                    <a href="tabla_categorias.php">Categoria</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/vender-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Vender</a>
+                    <a href="vender.php">Vender</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/salir-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Salir</a>
+                    <a href="index.php">Salir</a>
                 </li>
                 <hr>
             </ul>
             <div class="hamburger">
-                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()"
-                    class="logo-navbar-hamburguer">
-                <img class="logo-menu" src="img/logo.svg" width="70" height="70">
+                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()" class="logo-navbar-hamburguer">
+                <img class="logo-menu" src="img/logo.svg" alt="" width="70" height="70">
             </div>
         </div>
     </nav>
@@ -62,52 +72,55 @@
     <!--Parte del logotipo ingreso-->
     <div class="container-registro">
         <div class="flex-item">
-            <img src="img/producto-navbar.svg" width="150px" height="150px">
+            <img src="img/categoria-navbar.svg" width="150px" height="150px">
         </div>
     </div>
     <div class="container-registro">
         <div class="flex-item fontype">
             <h1 class="title">
-                CREAR PRODUCTOS
+                CREAR CATEGORIA
             </h1>
         </div>
     </div>
     <!--Fin del logotipo ingreso-->
 
-        <!--Formulario producto-->
-        <div class="container">
-            <form>
-                <div class="title-form">
-                    <h3 class="title-h4">Nombre Producto</h3>
-                </div>
-                <div>
-                    <input class="input" type="text" class="input-with-logo">
-                </div>
-                <div class="title-form">
-                    <h3 class="title-h4">Precio Producto</h3>
-                </div>
-                <div>
-                    <input class="input" type="text" class="input-with-logo">
-                </div>
-                <div class="title-form">
-                    <h3 class="title-h4">Categoria Producto</h3>
-                </div>
-                <div>
-                    <select name="select" class="input" required>
-                        <option value="value1">Value 1</option>
-                        <option value="value2">Value 2</option>
-                        <option value="value3">Value 3</option>
-                      </select>
-                </div>
-                <br><br>
-                <div class="btns-form">
-                    <button type="submit" class="btn-form">Crear</button>
-                    <a href="index.html"><button type="section" class="btn-form-cancelar">Cancelar</button></a>
-                </div>
-            </form>
-        </div>
-        <!--Fin formulario Crear producto-->
-
+    <!--Formulario-->
+    <div class="container">
+        <form method="post">
+            <div class="title-form">
+                <h3 class="title-h4">Nombre Categoria</h3>
+            </div>
+            <div>
+                <input class="input" type="text" class="input-with-logo" name="nomb" required maxlength="15">
+            </div>
+            <div class="title-form">
+                <h3 class="title-h4">Descripción Categoria</h3>
+            </div>
+            <div>
+                <input class="input" type="text" class="input-with-logo" name="desc" required maxlength="80" style="height: 100px;">
+            </div>
+            <br><br>
+            <div class="btns-form">
+                <button type="submit" class="btn-form" name="enviar">Crear</button>
+                <a href="tabla_categorias.php"><button type="button" class="btn-form">Regresar</button></a>
+            </div>
+        </form>
+    </div>
+    <!--Fin formulario-->
+    <!--Parte de envio de datos-->
+    <?php
+    if(isset($_POST['enviar'])){
+        $nom = $_POST['nomb'];
+        $desc = $_POST['desc'];
+        if(crear_categoria($nom, $desc)){
+            echo "<script>alert('Se creo correctamente')</script>";
+            echo "<script>window.location.href = 'tabla_categorias.php';</script>";
+        }else{
+            echo "<script>alert('No se pudo crear')</script>";
+        }
+    }
+    ?>
+    <!--Fin de envio de datos-->
     <br>
     <!--Parte del footer-->
     <footer class="footer">

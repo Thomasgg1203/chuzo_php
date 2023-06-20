@@ -1,3 +1,13 @@
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+session_start();
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
+    echo "<script>window.location.href = 'index.php';</script>";
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -8,24 +18,20 @@
     <!--Link CSS-->
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <!--Titulo-->
-    <title>Chuzo || Detalles Producto</title>
+    <title>Detalles Perfil || Chuzo</title>
 </head>
 
 <body class="body">
     <!--Parte del codigo php-->
     <?php
-    require('../controller/Controller_productos.php');
+    require('../controller/Controller_usuarios.php');
     //Mensaje de error por si pasa algo
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
     //fin
     //Toma del id necesario para llenar datos
-    if (isset($_GET['id'])){
-        $id = $_GET['id'];
-        $producto = detalle_producto($id);
-    }else{
-        echo "No se pudo tomar el id";
-    }
+    $id = $_SESSION['id'];
+    $user = detalles_usuario($id);
     //Fin de mensaje
     ?>
     <!--Fin php-->
@@ -35,7 +41,9 @@
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="detalles_perfil.php"><?php echo $_SESSION['nombre']; ?></a>
+                    <a href="#">
+                        <?php echo $_SESSION['nombre']; ?>
+                    </a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -81,13 +89,13 @@
     <!--Parte del logotipo ingreso-->
     <div class="container-registro">
         <div class="flex-item">
-            <img src="img/producto-navbar.svg" width="150px" height="150px">
+            <img src="img/logo-ingreso.svg" width="150px" height="150px">
         </div>
     </div>
     <div class="container-registro">
         <div class="flex-item fontype">
             <h1 class="title">
-                DETALLES PRODUCTOS
+                DETALLES PERFIL
             </h1>
         </div>
     </div>
@@ -96,19 +104,38 @@
     <div class="container-detalles">
         <div>
             <p>
-               <b>Identificador:</b> <?php echo $producto['prod_id']; ?>
+                <b>Identificador:</b>
+                <?php echo $user['usu_id']; ?>
             </p>
             <hr>
             <p>
-               <b>Categoria:</b> <?php echo $producto['prod_cate_id']."--".$producto['cate_nombre']; ?>
+                <b>Documento:</b>
+                <?php echo $user['usu_documento'] ?>
             </p>
             <hr>
             <p>
-                <b>Nombre:</b> <?php echo $producto['prod_nombre']; ?>
+                <b>Nombre:</b>
+                <?php echo $user['usu_nombre']; ?>
             </p>
             <hr>
             <p>
-                <b>Precio:</b> <?php echo $producto['prod_precio']; ?>
+                <b>Apellido:</b>
+                <?php echo $user['usu_apellido']; ?>
+            </p>
+            <hr>
+            <p>
+                <b>Correo:</b>
+                <?php echo $user['usu_email']; ?>
+            </p>
+            <hr>
+            <p>
+                <b>Permiso Admin:</b>
+                <?php 
+                if($user['usu_admin'] == 1)
+                echo "Si";
+                else
+                echo "No";
+                ?>
             </p>
         </div>
     </div>
@@ -117,9 +144,14 @@
     <!--Botones-->
     <div class="container">
         <div class="btns-form">
-            <a href="tabla_productos.php">
+            <a href="menu.php">
                 <button type="button" class="btn-form">
                     Regresar
+                </button>
+            </a>
+            <a href="editar_perfil.php">
+                <button type="button" class="btn-form">
+                    Editar
                 </button>
             </a>
         </div>
@@ -131,7 +163,7 @@
     <footer class="footer">
         <div class="logo-section">
             <div>
-                <img src="img/Logo-blanco-footer.svg" alt="Logo" class="logo">
+                <img src="img/Logo-blanco-footer.svg" class="logo">
             </div>
         </div>
         <div class="text-section">
@@ -140,9 +172,9 @@
             <h4>Thomas Giraldo García</h4>
         </div>
         <div class="icon-section">
-            <img src="img/facebook-footer.svg" alt="Icono 1" class="icon">
-            <img src="img/Whatsapp-footer.svg" alt="Icono 2" class="icon">
-            <img src="img/Instagram-footer.svg" alt="Icono 3" class="icon">
+            <img src="img/facebook-footer.svg" class="icon">
+            <img src="img/Whatsapp-footer.svg" class="icon">
+            <img src="img/Instagram-footer.svg" class="icon">
         </div>
     </footer>
     <!--Fin footer-->

@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
-
+<?php
+    session_start();
+    // Verificar si el usuario ha iniciado sesión
+    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+        // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
+        echo "<script>window.location.href = 'index.php';</script>";
+    }
+?>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,34 +15,29 @@
     <!--Link CSS-->
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <!--Titulo-->
-    <title>Chuzo || Detalles Producto</title>
+    <title>Chuzo || Tabla Ordenes</title>
 </head>
 
 <body class="body">
-    <!--Parte del codigo php-->
+    <!--LLamado del controlador-->
     <?php
-    require('../controller/Controller_productos.php');
-    //Mensaje de error por si pasa algo
+    //Mensaje de error por si pasa algo:
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
-    //fin
-    //Toma del id necesario para llenar datos
-    if (isset($_GET['id'])){
-        $id = $_GET['id'];
-        $producto = detalle_producto($id);
-    }else{
-        echo "No se pudo tomar el id";
-    }
-    //Fin de mensaje
+    //Fin de mensaje de error
+    //ruta controlador
+    require('../controller/Controller_ordenes.php');
+    //Relleno del array productos
+    $ordenes = obtener_ordenes();
     ?>
-    <!--Fin php-->
-    <!--Inicio Navbar-->
-    <nav>
+    <!--Fin del llamado controllador-->
+        <!--Inicio Navbar-->
+        <nav>
         <div class="navbar-1">
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="detalles_perfil.php"><?php echo $_SESSION['nombre']; ?></a>
+                    <a href="detalles_perfil.php?id=<?php echo $_SESSION['usu_id']; ?>"><?php echo $_SESSION['nombre'];?></a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -50,7 +52,7 @@
                 <hr>
                 <li class="flex-container">
                     <img src="img/ordenes-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="tabla_ordenes.php">Ordenes</a>
+                    <a href="#">Ordenes</a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -70,8 +72,7 @@
                 <hr>
             </ul>
             <div class="hamburger">
-                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()"
-                    class="logo-navbar-hamburguer">
+                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()" class="logo-navbar-hamburguer">
                 <img class="logo-menu" src="img/logo.svg" alt="" width="70" height="70">
             </div>
         </div>
@@ -81,43 +82,53 @@
     <!--Parte del logotipo ingreso-->
     <div class="container-registro">
         <div class="flex-item">
-            <img src="img/producto-navbar.svg" width="150px" height="150px">
+            <img src="img/ordenes-navbar.svg" width="150px" height="150px">
         </div>
     </div>
     <div class="container-registro">
         <div class="flex-item fontype">
             <h1 class="title">
-                DETALLES PRODUCTOS
+                INFORMACIÓN ORDENES
             </h1>
         </div>
     </div>
     <!--Fin del logotipo ingreso-->
-    <!--Detalles del producto-->
-    <div class="container-detalles">
-        <div>
-            <p>
-               <b>Identificador:</b> <?php echo $producto['prod_id']; ?>
-            </p>
-            <hr>
-            <p>
-               <b>Categoria:</b> <?php echo $producto['prod_cate_id']."--".$producto['cate_nombre']; ?>
-            </p>
-            <hr>
-            <p>
-                <b>Nombre:</b> <?php echo $producto['prod_nombre']; ?>
-            </p>
-            <hr>
-            <p>
-                <b>Precio:</b> <?php echo $producto['prod_precio']; ?>
-            </p>
-        </div>
+
+    <!--Tabla ordenes-->
+    <div class="container">
+        <table>
+            <tr>
+                <th colspan="3">Ordenes Productos</th>
+            </tr>
+            <!--Parte codigo php-->
+            <?php
+            //relleno de datos usuarios
+            foreach ($ordenes as $orde) {
+                echo '<tr>';
+                echo "<td>" . $orde['ord_id'] . "</td>";
+                echo "<td>" . $orde['prod_nombre'] . "</td>";
+                ?>
+                <td class="dropdown">
+                    <button class="btn-menu-crud">
+                        <img src="img/btn---.svg" width="20" height="20">
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="detalles_orden.php?id=<?php echo $orde['ord_id']; ?>">Detalles</a>
+                    </div>
+                </td>
+                <?php
+                echo '</tr>';
+            }
+            ?>
+            <!--Fin codigo-->
+        </table>
     </div>
-    <!--Fin detalles productos-->
+    <!--Fin tabla ordenes-->
     <br>
     <!--Botones-->
     <div class="container">
         <div class="btns-form">
-            <a href="tabla_productos.php">
+            <a href="menu.php">
                 <button type="button" class="btn-form">
                     Regresar
                 </button>
@@ -125,7 +136,6 @@
         </div>
     </div>
     <!--Fin Botones-->
-
     <br>
     <!--Parte del footer-->
     <footer class="footer">
@@ -140,9 +150,9 @@
             <h4>Thomas Giraldo García</h4>
         </div>
         <div class="icon-section">
-            <img src="img/facebook-footer.svg" alt="Icono 1" class="icon">
-            <img src="img/Whatsapp-footer.svg" alt="Icono 2" class="icon">
-            <img src="img/Instagram-footer.svg" alt="Icono 3" class="icon">
+            <img src="img/facebook-footer.svg" class="icon">
+            <img src="img/Whatsapp-footer.svg" class="icon">
+            <img src="img/Instagram-footer.svg" class="icon">
         </div>
     </footer>
     <!--Fin footer-->

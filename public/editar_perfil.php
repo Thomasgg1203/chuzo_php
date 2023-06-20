@@ -1,37 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+require('../controller/Controller_usuarios.php');
+session_start();
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
+    echo "<script>window.location.href = 'index.php';</script>";
+}
+//Toma del id necesario para llenar datos
+$id = $_SESSION['id'];
+$user = detalles_usuario($id);
+?>
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Link CSS-->
     <link rel="stylesheet" type="text/css" href="styles/style.css">
-    <title>Chuzo || Crear Producto</title>
+    <title>Chuzo || Editar perfil</title>
 </head>
 
 <body class="body">
-    <?php
-    session_start();
-    // Verificar si el usuario ha iniciado sesión
-    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-        // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
-        echo "<script>window.location.href = 'index.php';</script>";
-    }
-    //Mensaje de error por si pasa algo
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
-    //fin
-    require('../controller/Controller_productos.php');
-    $cate = get_categoria();
-    //Fin de mensaje
-    ?>
     <!--Inicio Navbar-->
     <nav>
         <div class="navbar-1">
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="detalles_perfil.php"><?php echo $_SESSION['nombre'];?></a>
+                    <a href="detalles_perfil.php">
+                        <?php echo $_SESSION['nombre']; ?>
+                    </a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -66,8 +68,9 @@
                 <hr>
             </ul>
             <div class="hamburger">
-                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()" class="logo-navbar-hamburguer">
-                <img class="logo-menu" src="img/logo.svg" width="70" height="70">
+                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()"
+                    class="logo-navbar-hamburguer">
+                <img class="logo-menu" src="img/logo.svg" alt="" width="70" height="70">
             </div>
         </div>
     </nav>
@@ -76,70 +79,91 @@
     <!--Parte del logotipo ingreso-->
     <div class="container-registro">
         <div class="flex-item">
-            <img src="img/producto-navbar.svg" width="150px" height="150px">
+            <img src="img/logo-ingreso.svg" width="150px" height="150px">
         </div>
     </div>
     <div class="container-registro">
         <div class="flex-item fontype">
             <h1 class="title">
-                CREAR PRODUCTOS
+                EDITAR PERFIL
             </h1>
         </div>
     </div>
     <!--Fin del logotipo ingreso-->
 
-    <!--Formulario producto-->
+    <!--Formulario-->
     <div class="container">
         <form method="post">
             <div class="title-form">
-                <h3 class="title-h4">Nombre Producto</h3>
+                <h3 class="title-h4">Documento</h3>
             </div>
             <div>
-                <input class="input" type="text" class="input-with-logo" name="nombre" minlength="1" required>
+                <input class="input" type="text" class="input-with-logo" name="documento" required maxlength="15"
+                    value="<?php echo $user['usu_documento']; ?>">
             </div>
             <div class="title-form">
-                <h3 class="title-h4">Precio Producto</h3>
+                <h3 class="title-h4">Nombre</h3>
             </div>
             <div>
-                <input class="input" type="text" class="input-with-logo" name="precio" required minlength="1">
+                <input class="input" type="text" class="input-with-logo" name="nombre" required maxlength="30"
+                    value="<?php echo $user['usu_nombre']; ?>">
             </div>
             <div class="title-form">
-                <h3 class="title-h4">Categoria Producto</h3>
+                <h3 class="title-h4">Apellido</h3>
             </div>
             <div>
+                <input class="input" type="text" class="input-with-logo" name="apellido" required maxlength="30"
+                    value="<?php echo $user['usu_apellido']; ?>">
+            </div>
+            <div class="title-form">
+                <h3 class="title-h4">Correo</h3>
+            </div>
+            <div>
+                <input class="input" type="email" class="input-with-logo" multiple name="email" required maxlength="30"
+                    value="<?php echo $user['usu_email']; ?>">
+            </div>
+            <div class="title-form">
+                <h3 class="title-h4">Permiso Admin</h3>
+            </div>
+            <div class="logo-input">
                 <select name="select" class="input" required>
-                    <?php
-                    foreach ($cate as $c) {
-                    ?>
-                            <option value="<?php echo $c['cate_id']; ?>"><?php echo $c['cate_id'] . " -- " . $c['cate_nombre']; ?></option>
-                    <?php
-                    }
-                    ?>
+                    <option value="<?php echo $user['usu_admin']; ?>">
+                        <?php
+                        if ($user['usu_admin'] == 1)
+                            echo "Si";
+                        else
+                            echo "No";
+                        ?>
+                    </option>
                 </select>
             </div>
             <br><br>
             <div class="btns-form">
-                <button type="submit" class="btn-form" name="crear">Crear</button>
-                <a href="tabla_productos.php"><button type="button" class="btn-form-cancelar">Cancelar</button></a>
+                <button type="submit" class="btn-form" name="enviar">Actualizar</button>
+                <a href="detalles_perfil.php"><button type="button" class="btn-form">Regresar</button></a>
             </div>
         </form>
     </div>
-    <!--Fin formulario Crear producto-->
-        <?php
-            if(isset($_POST['crear'])){
-                //validar los datos
-                $nombre_prod = $_POST['nombre'] ?? '';
-                $precio_prod = $_POST['precio'] ?? '';
-                $cate_prod   = $_POST['select'] ?? '';
-                if(crear_producto($nombre_prod, $precio_prod, $cate_prod)==true){
-                    echo '<script>alert("Se creo con exito el producto")
-                    window.location.replace("tabla_productos.php");
-                    </script>';
-                }else{
-                    echo '<script>alert("No se puedo crear el producto")</script>';
-                }
-            }
-        ?>
+    <!--Fin formulario-->
+    <!-- Envio de datos -->
+    <?php
+    if (isset($_POST['enviar'])) {
+        $doc = $_POST['documento'];
+        $nom = $_POST['nombre'];
+        $ape = $_POST['apellido'];
+        $eml = $_POST['email'];
+        $adm = $_POST['select'];
+        //envio de datos
+        if (actualizar_usuario($id, $doc, $nom, $ape, $eml, $adm) == true) {
+            echo '<script>alert("Se actualizo el perfil correctamente");
+            window.location.replace("detalles_perfil.php");</script>';
+        } else {
+            echo '<script>alert("No se pudo actualizar el perfil");s
+            window.location.replace("detalles_perfil.php");</script>';
+        }
+    }
+    ?>
+    <!-- Fin de envios de datos -->
     <br>
     <!--Parte del footer-->
     <footer class="footer">

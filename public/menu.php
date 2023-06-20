@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 // Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
@@ -25,7 +24,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="#"><?php echo $_SESSION['nombre'];?></a>
+                    <a href="detalles_perfil.php?id=<?php echo $_SESSION['usu_id']; ?>"><?php echo $_SESSION['nombre'];?></a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -40,17 +39,17 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <hr>
                 <li class="flex-container">
                     <img src="img/ordenes-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="#">Ordenes</a>
+                    <a href="tabla_ordenes.php">Ordenes</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/categoria-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="#">Categoria</a>
+                    <a href="tabla_categorias.php">Categoria</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/vender-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="#">Vender</a>
+                    <a href="vender.php">Vender</a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -94,7 +93,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             <div class="mySlides">
                 <img src="img/carrucel-3.jpg">
             </div>
-            
             <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
             <a class="next" onclick="plusSlides(1)">&#10095;</a>
     
@@ -130,7 +128,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             </a>
         </div>
         <div>
-            <a href="#">
+            <a href="tabla_categorias.php">
                 <button class="botones-principales">
                     <img src="img/btn-categoria.svg" width="40" height="40">
                     <h4>
@@ -140,7 +138,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             </a>
         </div>
         <div>
-            <a href="#">
+            <a href="tabla_ordenes.php">
                 <button class="botones-principales">
                     <img src="img/btn-ordenes.svg" width="40" height="40">
                     <h4>
@@ -150,7 +148,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             </a>
         </div>
         <div>
-            <a href="#">
+            <a href="vender.php">
                 <button class="botones-principales">
                     <img src="img/btn-vender.svg" width="40" height="40">
                     <h4>
@@ -166,7 +164,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <footer class="footer">
         <div class="logo-section">
             <div>
-                <img src="img/Logo-blanco-footer.svg" alt="Logo" class="logo">
+                <img src="img/Logo-blanco-footer.svg" class="logo">
             </div>
         </div>
         <div class="text-section">
@@ -175,9 +173,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             <h4>Thomas Giraldo García</h4>
         </div>
         <div class="icon-section">
-            <img src="img/facebook-footer.svg" alt="Icono 1" class="icon">
-            <img src="img/Whatsapp-footer.svg" alt="Icono 2" class="icon">
-            <img src="img/Instagram-footer.svg" alt="Icono 3" class="icon">
+            <img src="img/facebook-footer.svg" class="icon">
+            <img src="img/Whatsapp-footer.svg" class="icon">
+            <img src="img/Instagram-footer.svg" class="icon">
         </div>
     </footer>
     <!--Fin footer-->

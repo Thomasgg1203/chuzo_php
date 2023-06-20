@@ -37,7 +37,7 @@
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="#"><?php echo $_SESSION['nombre'];?></a>
+                    <a href="detalles_perfil.php?id=<?php echo $_SESSION['usu_id']; ?>"><?php echo $_SESSION['nombre'];?></a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -52,17 +52,17 @@
                 <hr>
                 <li class="flex-container">
                     <img src="img/ordenes-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="#">Ordenes</a>
+                    <a href="tabla_ordenes.php">Ordenes</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/categoria-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="#">Categoria</a>
+                    <a href="tabla_categorias.php">Categoria</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/vender-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="#">Vender</a>
+                    <a href="vender.php">Vender</a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -72,8 +72,7 @@
                 <hr>
             </ul>
             <div class="hamburger">
-                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()"
-                    class="logo-navbar-hamburguer">
+                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()" class="logo-navbar-hamburguer">
                 <img class="logo-menu" src="img/logo.svg" alt="" width="70" height="70">
             </div>
         </div>

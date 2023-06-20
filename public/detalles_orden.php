@@ -3,13 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Link CSS-->
     <link rel="stylesheet" type="text/css" href="styles/style.css">
-    <title>Chuzo || Crear Producto</title>
+    <!--Titulo-->
+    <title>Tabla Ordenes || Chuzo</title>
 </head>
 
 <body class="body">
+    <!--Parte del codigo php-->
     <?php
     session_start();
     // Verificar si el usuario ha iniciado sesión
@@ -17,21 +20,28 @@
         // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
         echo "<script>window.location.href = 'index.php';</script>";
     }
+    require('../controller/Controller_ordenes.php');
     //Mensaje de error por si pasa algo
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
     //fin
-    require('../controller/Controller_productos.php');
-    $cate = get_categoria();
+    //Toma del id necesario para llenar datos
+    if (isset($_GET['id'])){
+        $id = $_GET['id'];
+        $ord = detalles_ordenes($id);
+    }else{
+        echo "No se pudo tomar el id";
+    }
     //Fin de mensaje
     ?>
+    <!--Fin php-->
     <!--Inicio Navbar-->
     <nav>
         <div class="navbar-1">
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="detalles_perfil.php"><?php echo $_SESSION['nombre'];?></a>
+                    <a href="detalles_perfil.php"><?php echo $_SESSION['nombre']; ?></a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -66,8 +76,9 @@
                 <hr>
             </ul>
             <div class="hamburger">
-                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()" class="logo-navbar-hamburguer">
-                <img class="logo-menu" src="img/logo.svg" width="70" height="70">
+                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()"
+                    class="logo-navbar-hamburguer">
+                <img class="logo-menu" src="img/logo.svg" alt="" width="70" height="70">
             </div>
         </div>
     </nav>
@@ -76,70 +87,55 @@
     <!--Parte del logotipo ingreso-->
     <div class="container-registro">
         <div class="flex-item">
-            <img src="img/producto-navbar.svg" width="150px" height="150px">
+            <img src="img/ordenes-navbar.svg" width="150px" height="150px">
         </div>
     </div>
     <div class="container-registro">
         <div class="flex-item fontype">
             <h1 class="title">
-                CREAR PRODUCTOS
+                DETALLES ORDENES
             </h1>
         </div>
     </div>
     <!--Fin del logotipo ingreso-->
-
-    <!--Formulario producto-->
-    <div class="container">
-        <form method="post">
-            <div class="title-form">
-                <h3 class="title-h4">Nombre Producto</h3>
-            </div>
-            <div>
-                <input class="input" type="text" class="input-with-logo" name="nombre" minlength="1" required>
-            </div>
-            <div class="title-form">
-                <h3 class="title-h4">Precio Producto</h3>
-            </div>
-            <div>
-                <input class="input" type="text" class="input-with-logo" name="precio" required minlength="1">
-            </div>
-            <div class="title-form">
-                <h3 class="title-h4">Categoria Producto</h3>
-            </div>
-            <div>
-                <select name="select" class="input" required>
-                    <?php
-                    foreach ($cate as $c) {
-                    ?>
-                            <option value="<?php echo $c['cate_id']; ?>"><?php echo $c['cate_id'] . " -- " . $c['cate_nombre']; ?></option>
-                    <?php
-                    }
-                    ?>
-                </select>
-            </div>
-            <br><br>
-            <div class="btns-form">
-                <button type="submit" class="btn-form" name="crear">Crear</button>
-                <a href="tabla_productos.php"><button type="button" class="btn-form-cancelar">Cancelar</button></a>
-            </div>
-        </form>
+    <!--Detalles del producto-->
+    <div class="container-detalles">
+        <div>
+            <p>
+               <b>Identificador:</b> <?php echo $ord['ord_id']; ?>
+            </p>
+            <hr>
+            <p>
+               <b>Producto:</b> <?php echo $ord['ord_pro_id']."--".$ord['prod_nombre']; ?>
+            </p>
+            <hr>
+            <p>
+                <b>Usuario:</b> <?php echo $ord['ord_usu_id']. "--". $ord['usu_nombre']; ?>
+            </p>
+            <hr>
+            <p>
+                <b>Cantidad:</b> <?php echo $ord['cantidad']; ?>
+            </p>
+            <hr>
+            <p>
+                <b>Fecha:</b> <?php echo $ord['ord_fecha']; ?>
+            </p>
+        </div>
     </div>
-    <!--Fin formulario Crear producto-->
-        <?php
-            if(isset($_POST['crear'])){
-                //validar los datos
-                $nombre_prod = $_POST['nombre'] ?? '';
-                $precio_prod = $_POST['precio'] ?? '';
-                $cate_prod   = $_POST['select'] ?? '';
-                if(crear_producto($nombre_prod, $precio_prod, $cate_prod)==true){
-                    echo '<script>alert("Se creo con exito el producto")
-                    window.location.replace("tabla_productos.php");
-                    </script>';
-                }else{
-                    echo '<script>alert("No se puedo crear el producto")</script>';
-                }
-            }
-        ?>
+    <!--Fin detalles productos-->
+    <br>
+    <!--Botones-->
+    <div class="container">
+        <div class="btns-form">
+            <a href="tabla_ordenes.php">
+                <button type="button" class="btn-form">
+                    Regresar
+                </button>
+            </a>
+        </div>
+    </div>
+    <!--Fin Botones-->
+
     <br>
     <!--Parte del footer-->
     <footer class="footer">

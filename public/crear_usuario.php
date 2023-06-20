@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="es">
-
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+require('../controller/Controller_usuarios.php');
+session_start();
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
+    echo "<script>window.location.href = 'index.php';</script>";
+}
+if($_SESSION['estado'] == 0){
+    echo "<script>alert('No eres admin')</script>";
+    echo "<script>window.location.href = 'index.php';</script>";    
+}
+?>
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Link CSS-->
     <link rel="stylesheet" type="text/css" href="styles/style.css">
-    <title>Chuzo || Crear Producto</title>
+    <title>Chuzo || Crear Usuario</title>
 </head>
 
 <body class="body">
-    <?php
-    session_start();
-    // Verificar si el usuario ha iniciado sesión
-    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-        // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
-        echo "<script>window.location.href = 'index.php';</script>";
-    }
-    //Mensaje de error por si pasa algo
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
-    //fin
-    require('../controller/Controller_productos.php');
-    $cate = get_categoria();
-    //Fin de mensaje
-    ?>
     <!--Inicio Navbar-->
     <nav>
         <div class="navbar-1">
@@ -67,7 +67,7 @@
             </ul>
             <div class="hamburger">
                 <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()" class="logo-navbar-hamburguer">
-                <img class="logo-menu" src="img/logo.svg" width="70" height="70">
+                <img class="logo-menu" src="img/logo.svg" alt="" width="70" height="70">
             </div>
         </div>
     </nav>
@@ -76,70 +76,76 @@
     <!--Parte del logotipo ingreso-->
     <div class="container-registro">
         <div class="flex-item">
-            <img src="img/producto-navbar.svg" width="150px" height="150px">
+            <img src="img/usuarios-navbar.svg" width="150px" height="150px">
         </div>
     </div>
     <div class="container-registro">
         <div class="flex-item fontype">
             <h1 class="title">
-                CREAR PRODUCTOS
+                CREAR USUARIO
             </h1>
         </div>
     </div>
     <!--Fin del logotipo ingreso-->
 
-    <!--Formulario producto-->
+    <!--Formulario-->
     <div class="container">
         <form method="post">
             <div class="title-form">
-                <h3 class="title-h4">Nombre Producto</h3>
+                <h3 class="title-h4">Documento</h3>
             </div>
             <div>
-                <input class="input" type="text" class="input-with-logo" name="nombre" minlength="1" required>
+                <input class="input" type="text" class="input-with-logo" name="documento" required maxlength="15">
             </div>
             <div class="title-form">
-                <h3 class="title-h4">Precio Producto</h3>
+                <h3 class="title-h4">Nombre</h3>
             </div>
             <div>
-                <input class="input" type="text" class="input-with-logo" name="precio" required minlength="1">
+                <input class="input" type="text" class="input-with-logo" name="nombre" required maxlength="30">
             </div>
             <div class="title-form">
-                <h3 class="title-h4">Categoria Producto</h3>
+                <h3 class="title-h4">Apellido</h3>
             </div>
             <div>
-                <select name="select" class="input" required>
-                    <?php
-                    foreach ($cate as $c) {
-                    ?>
-                            <option value="<?php echo $c['cate_id']; ?>"><?php echo $c['cate_id'] . " -- " . $c['cate_nombre']; ?></option>
-                    <?php
-                    }
-                    ?>
-                </select>
+                <input class="input" type="text" class="input-with-logo" name="apellido" required maxlength="30">
+            </div>
+            <div class="title-form">
+                <h3 class="title-h4">Correo</h3>
+            </div>
+            <div>
+                <input class="input" type="email" class="input-with-logo" multiple name="email" required maxlength="30">
+            </div>
+            <div class="title-form">
+                <h3 class="title-h4">Contraseña</h3>
+            </div>
+            <div class="logo-input">
+                <input type="password" class="input" name="contra" required maxlength="8">
             </div>
             <br><br>
             <div class="btns-form">
-                <button type="submit" class="btn-form" name="crear">Crear</button>
-                <a href="tabla_productos.php"><button type="button" class="btn-form-cancelar">Cancelar</button></a>
+                <button type="submit" class="btn-form" name="enviar">Crear</button>
+                <a href="tabla_usuarios.php"><button type="button" class="btn-form">Regresar</button></a>
             </div>
         </form>
     </div>
-    <!--Fin formulario Crear producto-->
-        <?php
-            if(isset($_POST['crear'])){
-                //validar los datos
-                $nombre_prod = $_POST['nombre'] ?? '';
-                $precio_prod = $_POST['precio'] ?? '';
-                $cate_prod   = $_POST['select'] ?? '';
-                if(crear_producto($nombre_prod, $precio_prod, $cate_prod)==true){
-                    echo '<script>alert("Se creo con exito el producto")
-                    window.location.replace("tabla_productos.php");
-                    </script>';
-                }else{
-                    echo '<script>alert("No se puedo crear el producto")</script>';
-                }
-            }
-        ?>
+    <!--Fin formulario-->
+    <!--Parte de envio de datos-->
+    <?php
+    if(isset($_POST['enviar'])){
+        $doc = $_POST['documento'];
+        $nom = $_POST['nombre'];
+        $ape = $_POST['apellido'];
+        $ema = $_POST['email'];
+        $con = $_POST['contra'];
+        if(crear_usuario($doc, $nom, $ape, $ema, $con)){
+            echo "<script>alert('Se creo correctamente')</script>";
+            echo "<script>window.location.href = 'tabla_usuarios.php';</script>";
+        }else{
+            echo "<script>alert('No se pudo crear')</script>";
+        }
+    }
+    ?>
+    <!--Fin de envio de datos-->
     <br>
     <!--Parte del footer-->
     <footer class="footer">
