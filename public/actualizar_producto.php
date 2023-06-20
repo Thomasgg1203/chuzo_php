@@ -11,6 +11,12 @@
 
 <body class="body">
     <?php
+    session_start();
+    // Verificar si el usuario ha iniciado sesión
+    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+        // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
+        echo "<script>window.location.href = 'index.php';</script>";
+    }
     //Mensaje de error por si pasa algo
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
@@ -32,7 +38,7 @@
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="#">Perfil</a>
+                    <a href="detalles_perfil.php"><?php echo $_SESSION['nombre'];?></a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -42,27 +48,27 @@
                 <hr>
                 <li class="flex-container">
                     <img src="img/usuarios-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Usuarios</a>
+                    <a href="tabla_usuarios.php">Usuarios</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/ordenes-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Ordenes</a>
+                    <a href="tabla_ordenes.php">Ordenes</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/categoria-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Categoria</a>
+                    <a href="tabla_categorias.php">Categoria</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/vender-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Vender</a>
+                    <a href="vender.php">Vender</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/salir-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Salir</a>
+                    <a href="index.php">Salir</a>
                 </li>
                 <hr>
             </ul>
@@ -140,7 +146,7 @@
                 $id_prod = $id;
                 if(actualizar_producto($id_prod, $nombre_prod, $precio_prod, $cate_prod)==true){
                     echo '<script>alert("Se actualizo con exito")
-                    window.location.replace("../public/tabla_productos.php");
+                    window.location.replace("tabla_productos.php");
                     </script>';
                 }else{
                     echo '<script>alert("No se puedo actualizar")</script>';

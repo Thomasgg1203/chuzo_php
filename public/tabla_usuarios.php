@@ -14,15 +14,13 @@ if($_SESSION['estado'] == 0){
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Link CSS-->
     <link rel="stylesheet" type="text/css" href="styles/style.css">
-    <title>Chuzo ||Tabla Usuarios</title>
+    <title>Chuzo || Tabla Usuarios</title>
 </head>
-
 <body class="body">
         <!--El archivo que se requiere-->
         <?php
@@ -38,37 +36,37 @@ if($_SESSION['estado'] == 0){
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="#"><?php echo $_SESSION['nombre'];?></a>
+                    <a href="detalles_perfil.php?id=<?php echo $_SESSION['usu_id']; ?>"><?php echo $_SESSION['nombre'];?></a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/producto-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="#">Productos</a>
+                    <a href="tabla_productos.php">Productos</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/usuarios-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Usuarios</a>
+                    <a href="#">Usuarios</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/ordenes-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Ordenes</a>
+                    <a href="tabla_ordenes.php">Ordenes</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/categoria-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Categoria</a>
+                    <a href="tabla_categorias.php">Categoria</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/vender-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Vender</a>
+                    <a href="vender.php">Vender</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/salir-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Salir</a>
+                    <a href="index.php">Salir</a>
                 </li>
                 <hr>
             </ul>
@@ -114,8 +112,14 @@ if($_SESSION['estado'] == 0){
                     </button>
                     <div class="dropdown-content">
                     <a href="detalles_usuario.php?id=<?php echo $user['usu_id']; ?>">Detalles</a>
-                        <a href="#">Actualizar</a>
-                        <a href="#" onclick="showAlert()">Eliminar</a>
+                        <a href="actualizar_usuario.php?id=<?php echo $user['usu_id']; ?>">Actualizar</a>
+
+                        <form method="post" action="eliminar_usuario.php">
+                            <button type="submit" href="#?id="<?php echo $user['usu_id']; ?>"
+                                value="<?php echo $user['usu_id']; ?>" name="btn-eliminar" class="btn-sin-estilo">
+                                Eliminar
+                            </button>
+                        </form>
                     </div>
                 </td>
             <?php
@@ -124,30 +128,6 @@ if($_SESSION['estado'] == 0){
             ?>
         </table>
     </div>
-    <!--Fin tabla productos-->
-        <!--Parte de la alerta-->
-        <!-- <div id="alertBox" class="alert-box">
-        <div class="alert-content">
-            <span class="close-btn" onclick="closeAlert()">&times;</span>
-            <h2>
-                ¿Desea eliminar este producto?
-            </h2>
-            <p>Si elimina este producto, no podra volver a encontrarlo en la tabla</p>
-            <div class="btns-form-alerta">
-                <a href="">
-                    <button type="button" class="btn-form">
-                        Eliminar
-                    </button>
-                </a>
-                <a href="#">
-                    <button type="button" onclick="closeAlert()" class="btn-form-cancelar">
-                        Cancelar
-                    </button>
-                </a>
-            </div>
-        </div>
-    </div> -->
-    <!--Fin de la alerta-->
     <br>
     <!--Botones-->
     <div class="container">
@@ -157,7 +137,7 @@ if($_SESSION['estado'] == 0){
                     Crear usuario
                 </button>
             </a>
-            <a href="menu.html">
+            <a href="menu.php">
                 <button type="button" class="btn-form">
                     Regresar
                 </button>
@@ -170,7 +150,7 @@ if($_SESSION['estado'] == 0){
     <footer class="footer">
         <div class="logo-section">
             <div>
-                <img src="img/Logo-blanco-footer.svg" alt="Logo" class="logo">
+                <img src="img/Logo-blanco-footer.svg" class="logo">
             </div>
         </div>
         <div class="text-section">
@@ -179,9 +159,9 @@ if($_SESSION['estado'] == 0){
             <h4>Thomas Giraldo García</h4>
         </div>
         <div class="icon-section">
-            <img src="img/facebook-footer.svg" alt="Icono 1" class="icon">
-            <img src="img/Whatsapp-footer.svg" alt="Icono 2" class="icon">
-            <img src="img/Instagram-footer.svg" alt="Icono 3" class="icon">
+            <img src="img/facebook-footer.svg" class="icon">
+            <img src="img/Whatsapp-footer.svg" class="icon">
+            <img src="img/Instagram-footer.svg" class="icon">
         </div>
     </footer>
     <!--Fin footer-->

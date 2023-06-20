@@ -1,37 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Link CSS-->
-    <link rel="stylesheet" type="text/css" href="styles/style.css">
-    <title>Chuzo || Crear Producto</title>
-</head>
-
-<body class="body">
-    <?php
+<?php
     session_start();
     // Verificar si el usuario ha iniciado sesión
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
         echo "<script>window.location.href = 'index.php';</script>";
     }
-    //Mensaje de error por si pasa algo
+?>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Link CSS-->
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <!--Titulo-->
+    <title>Chuzo || Tabla Categorias</title>
+</head>
+
+<body class="body">
+    <!--LLamado del controlador-->
+    <?php
+    //Mensaje de error por si pasa algo:
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
-    //fin
-    require('../controller/Controller_productos.php');
-    $cate = get_categoria();
-    //Fin de mensaje
+    //Fin de mensaje de error
+    //ruta controlador
+    require('../controller/Controller_categorias.php');
+    //Relleno del array productos
+    $categorias = get_categoria();
     ?>
+    <!--Fin del llamado controllador-->
     <!--Inicio Navbar-->
     <nav>
         <div class="navbar-1">
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="detalles_perfil.php"><?php echo $_SESSION['nombre'];?></a>
+                    <a href="detalles_perfil.php?id=<?php echo $_SESSION['usu_id']; ?>"><?php echo $_SESSION['nombre'];?></a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -51,7 +57,7 @@
                 <hr>
                 <li class="flex-container">
                     <img src="img/categoria-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="tabla_categorias.php">Categoria</a>
+                    <a href="#">Categoria</a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -67,7 +73,7 @@
             </ul>
             <div class="hamburger">
                 <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()" class="logo-navbar-hamburguer">
-                <img class="logo-menu" src="img/logo.svg" width="70" height="70">
+                <img class="logo-menu" src="img/logo.svg" alt="" width="70" height="70">
             </div>
         </div>
     </nav>
@@ -76,70 +82,74 @@
     <!--Parte del logotipo ingreso-->
     <div class="container-registro">
         <div class="flex-item">
-            <img src="img/producto-navbar.svg" width="150px" height="150px">
+            <img src="img/categoria-navbar.svg" width="150px" height="150px">
         </div>
     </div>
     <div class="container-registro">
         <div class="flex-item fontype">
             <h1 class="title">
-                CREAR PRODUCTOS
+                INFORMACIÓN CATEGORIAS
             </h1>
         </div>
     </div>
     <!--Fin del logotipo ingreso-->
 
-    <!--Formulario producto-->
+    <!--Tabla productos-->
     <div class="container">
-        <form method="post">
-            <div class="title-form">
-                <h3 class="title-h4">Nombre Producto</h3>
-            </div>
-            <div>
-                <input class="input" type="text" class="input-with-logo" name="nombre" minlength="1" required>
-            </div>
-            <div class="title-form">
-                <h3 class="title-h4">Precio Producto</h3>
-            </div>
-            <div>
-                <input class="input" type="text" class="input-with-logo" name="precio" required minlength="1">
-            </div>
-            <div class="title-form">
-                <h3 class="title-h4">Categoria Producto</h3>
-            </div>
-            <div>
-                <select name="select" class="input" required>
-                    <?php
-                    foreach ($cate as $c) {
-                    ?>
-                            <option value="<?php echo $c['cate_id']; ?>"><?php echo $c['cate_id'] . " -- " . $c['cate_nombre']; ?></option>
-                    <?php
-                    }
-                    ?>
-                </select>
-            </div>
-            <br><br>
-            <div class="btns-form">
-                <button type="submit" class="btn-form" name="crear">Crear</button>
-                <a href="tabla_productos.php"><button type="button" class="btn-form-cancelar">Cancelar</button></a>
-            </div>
-        </form>
-    </div>
-    <!--Fin formulario Crear producto-->
-        <?php
-            if(isset($_POST['crear'])){
-                //validar los datos
-                $nombre_prod = $_POST['nombre'] ?? '';
-                $precio_prod = $_POST['precio'] ?? '';
-                $cate_prod   = $_POST['select'] ?? '';
-                if(crear_producto($nombre_prod, $precio_prod, $cate_prod)==true){
-                    echo '<script>alert("Se creo con exito el producto")
-                    window.location.replace("tabla_productos.php");
-                    </script>';
-                }else{
-                    echo '<script>alert("No se puedo crear el producto")</script>';
-                }
+        <table>
+            <tr>
+                <th colspan="3">Categorias</th>
+            </tr>
+            <!--Parte codigo php-->
+            <?php
+            //relleno de datos usuarios
+            foreach ($categorias as $c) {
+                echo '<tr>';
+                echo "<td>" . $c['cate_id'] . "</td>";
+                echo "<td>" . $c['cate_nombre'] . "</td>";
+                ?>
+                <td class="dropdown">
+                    <button class="btn-menu-crud">
+                        <img src="img/btn---.svg" width="20" height="20">
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="detalles_categoria.php?id=<?php echo $c['cate_id']; ?>">Detalles</a>
+                        <a href="actualizar_categoria.php?id=<?php echo $c['cate_id']; ?>">Actualizar</a>
+
+                        <form method="post" action="eliminar_categoria.php">
+                            <button type="submit" href="#?id=<?php echo $c['cate_id']; ?>"
+                                value="<?php echo $c['cate_id']; ?>" name="btn-eliminar" class="btn-sin-estilo">
+                                Eliminar
+                            </button>
+                        </form>
+                    </div>
+                </td>
+                <?php
+                echo '</tr>';
             }
-        ?>
+            ?>
+            <!--Fin codigo-->
+        </table>
+    </div>
+    <!--Fin tabla productos-->
+
+    <br>
+    <!--Botones-->
+    <div class="container">
+        <div class="btns-form">
+            <a href="crear_categoria.php">
+                <button type="button" class="btn-form">
+                    Crear Producto
+                </button>
+            </a>
+            <a href="menu.php">
+                <button type="button" class="btn-form">
+                    Regresar
+                </button>
+            </a>
+        </div>
+    </div>
+    <!--Fin Botones-->
     <br>
     <!--Parte del footer-->
     <footer class="footer">

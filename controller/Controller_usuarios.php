@@ -58,4 +58,42 @@ function detalles_usuario($id){
     }
     return $deta;
 }
+//Actualizar
+function actualizar_usuario($id, $doc, $nom, $ape, $email, $admin){
+    $con = new Conexion();
+    try{
+        $query = "UPDATE usuarios as u SET usu_documento ='$doc', usu_nombre ='$nom', usu_apellido ='$ape', usu_email ='$email', usu_admin ='$admin' WHERE u.usu_id = '$id'";
+        
+        // Ejecutar la consulta
+        $con->getCon()->query($query);
+        
+        // Cerrar la conexión
+        $con->closeCon();
+        //retornar respuesta
+        return true;
+    }catch(mysqli_sql_exception $e){
+        echo "Error al actualizar usuarios: ".$e->getMessage();
+        $con->closeCon();
+        return false;
+    }
+}
+//eliminar usuario
+function eliminar_usuario($id){
+    $con = new Conexion();
+    try{
+        $query = "DELETE FROM usuarios WHERE usu_id = '$id'";
+        
+        // Ejecutar la consulta
+        $con->getCon()->query($query);
+        
+        // Cerrar la conexión
+        $con->closeCon();
+        //retornar respuesta
+        return true;
+    }catch(mysqli_sql_exception $e){
+        echo "Error al eliminar usuarios: ".$e->getMessage();
+        $con->closeCon();
+        return false;
+    }
+}
 ?>

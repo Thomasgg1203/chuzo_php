@@ -8,7 +8,7 @@
     <!--Link CSS-->
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <!--Titulo-->
-    <title>Tabla Productos || Chuzo</title>
+    <title>Chuzo || Detalles Producto</title>
 </head>
 
 <body class="body">
@@ -35,37 +35,37 @@
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="#">Perfil</a>
+                    <a href="detalles_perfil.php"><?php echo $_SESSION['nombre']; ?></a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/producto-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="#">Productos</a>
+                    <a href="tabla_productos.php">Productos</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/usuarios-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Usuarios</a>
+                    <a href="tabla_usuarios.php">Usuarios</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/ordenes-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Ordenes</a>
+                    <a href="tabla_ordenes.php">Ordenes</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/categoria-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Categoria</a>
+                    <a href="tabla_categorias.php">Categoria</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/vender-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Vender</a>
+                    <a href="vender.php">Vender</a>
                 </li>
                 <hr>
                 <li class="flex-container">
                     <img src="img/salir-navbar.svg" width="30" height="30" class="menu-logo">
-                    <a href="registro.html">Salir</a>
+                    <a href="index.php">Salir</a>
                 </li>
                 <hr>
             </ul>
