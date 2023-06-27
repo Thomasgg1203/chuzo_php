@@ -2,6 +2,7 @@
 <script src="js/navbar.js"></script>
 <?php
 require('../controller/Controller_categorias.php');
+$categoria = new categoriaController();
 $id_el = $_POST['btn-eliminar'];
 ?>
 <!--Parte de la alerta-->
@@ -31,12 +32,13 @@ $id_el = $_POST['btn-eliminar'];
     <?php
     if (isset($_POST['eliminar'])) {
         $id_el = $_POST['eliminar'];
-        if (eliminar_categoria($id_el) == true) {
+        if ($categoria->eliminarCategoria($id_el) == true) {
             echo '<script> 
                 alert("Se elimino con exito");
                 closeAlert();
                 window.location.replace("tabla_categorias.php");
                 </script>';
+            $categoria->cerrarConexion();
         } else {
             echo '<script>alert("No se pudo eliminar la categoria");
             window.location.replace("tabla_categorias.php");</script>';

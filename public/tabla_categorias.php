@@ -2,9 +2,7 @@
 <html lang="es">
 <?php
     session_start();
-    // Verificar si el usuario ha iniciado sesión
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-        // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
         echo "<script>window.location.href = 'index.php';</script>";
     }
 ?>
@@ -28,7 +26,8 @@
     //ruta controlador
     require('../controller/Controller_categorias.php');
     //Relleno del array productos
-    $categorias = get_categoria();
+    $cante = new categoriaController();
+    $categorias = $cante->obtenerCategorias();
     ?>
     <!--Fin del llamado controllador-->
     <!--Inicio Navbar-->
@@ -37,7 +36,7 @@
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="detalles_perfil.php?id=<?php echo $_SESSION['usu_id']; ?>"><?php echo $_SESSION['nombre'];?></a>
+                    <a href="detalles_perfil.php?id=<?php echo $_SESSION['id']; ?>"><?php echo $_SESSION['nombre'];?></a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -105,20 +104,20 @@
             //relleno de datos usuarios
             foreach ($categorias as $c) {
                 echo '<tr>';
-                echo "<td>" . $c['cate_id'] . "</td>";
-                echo "<td>" . $c['cate_nombre'] . "</td>";
+                echo "<td>" . $c->id . "</td>";
+                echo "<td>" . $c->nombre . "</td>";
                 ?>
                 <td class="dropdown">
                     <button class="btn-menu-crud">
                         <img src="img/btn---.svg" width="20" height="20">
                     </button>
                     <div class="dropdown-content">
-                        <a href="detalles_categoria.php?id=<?php echo $c['cate_id']; ?>">Detalles</a>
-                        <a href="actualizar_categoria.php?id=<?php echo $c['cate_id']; ?>">Actualizar</a>
+                        <a href="detalles_categoria.php?id=<?php echo $c->id; ?>">Detalles</a>
+                        <a href="actualizar_categoria.php?id=<?php echo $c->id; ?>">Actualizar</a>
 
                         <form method="post" action="eliminar_categoria.php">
-                            <button type="submit" href="#?id=<?php echo $c['cate_id']; ?>"
-                                value="<?php echo $c['cate_id']; ?>" name="btn-eliminar" class="btn-sin-estilo">
+                            <button type="submit" href="#?id=<?php echo $c->id; ?>"
+                                value="<?php echo $c->id; ?>" name="btn-eliminar" class="btn-sin-estilo">
                                 Eliminar
                             </button>
                         </form>
@@ -127,6 +126,7 @@
                 <?php
                 echo '</tr>';
             }
+            $cante->cerrarConexion();
             ?>
             <!--Fin codigo-->
         </table>
@@ -139,7 +139,7 @@
         <div class="btns-form">
             <a href="crear_categoria.php">
                 <button type="button" class="btn-form">
-                    Crear Producto
+                    Crear Categoria
                 </button>
             </a>
             <a href="menu.php">
@@ -155,7 +155,7 @@
     <footer class="footer">
         <div class="logo-section">
             <div>
-                <img src="img/Logo-blanco-footer.svg" alt="Logo" class="logo">
+                <img src="img/Logo-blanco-footer.svg" class="logo">
             </div>
         </div>
         <div class="text-section">
@@ -164,9 +164,9 @@
             <h4>Thomas Giraldo García</h4>
         </div>
         <div class="icon-section">
-            <img src="img/facebook-footer.svg" alt="Icono 1" class="icon">
-            <img src="img/Whatsapp-footer.svg" alt="Icono 2" class="icon">
-            <img src="img/Instagram-footer.svg" alt="Icono 3" class="icon">
+            <img src="img/facebook-footer.svg" class="icon">
+            <img src="img/Whatsapp-footer.svg" class="icon">
+            <img src="img/Instagram-footer.svg" class="icon">
         </div>
     </footer>
     <!--Fin footer-->

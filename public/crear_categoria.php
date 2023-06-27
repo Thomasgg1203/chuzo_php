@@ -27,7 +27,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="detalles_perfil.php"><?php echo $_SESSION['nombre'];?></a>
+                    <a href="detalles_perfil.php?id=<?php echo $_SESSION['id']; ?>"><?php echo $_SESSION['nombre'];?></a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -109,10 +109,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <!--Fin formulario-->
     <!--Parte de envio de datos-->
     <?php
+    $cate =  new categoriaController();
     if(isset($_POST['enviar'])){
         $nom = $_POST['nomb'];
         $desc = $_POST['desc'];
-        if(crear_categoria($nom, $desc)){
+        if($cate->crearCategoria($nom, $desc)){
+            $cate->cerrarConexion();
             echo "<script>alert('Se creo correctamente')</script>";
             echo "<script>window.location.href = 'tabla_categorias.php';</script>";
         }else{

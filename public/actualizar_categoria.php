@@ -13,8 +13,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 }
-$cate = detalles_cate($id);
+$catego = new categoriaController();
+$cate = $catego->detallesCategoria($id);
 ?>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,7 +33,7 @@ $cate = detalles_cate($id);
             <ul class="menu">
                 <li class="flex-container">
                     <img src="img/logo-ingreso.svg" width="30" height="30" class="menu-logo">
-                    <a href="detalles_perfil.php"><?php echo $_SESSION['nombre'];?></a>
+                    <a href="detalles_perfil.php?id=<?php echo $_SESSION['id']; ?>"><?php echo $_SESSION['nombre'];?></a>
                 </li>
                 <hr>
                 <li class="flex-container">
@@ -66,7 +68,8 @@ $cate = detalles_cate($id);
                 <hr>
             </ul>
             <div class="hamburger">
-                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()" class="logo-navbar-hamburguer">
+                <img src="img/logo-navbar-hamburguer.svg" height="50" width="50" onclick="Menu()"
+                    class="logo-navbar-hamburguer">
                 <img class="logo-menu" src="img/logo.svg" alt="" width="70" height="70">
             </div>
         </div>
@@ -89,37 +92,48 @@ $cate = detalles_cate($id);
     <!--Fin del logotipo ingreso-->
 
     <!--Formulario-->
-    <div class="container">
-        <form method="post">
-            <div class="title-form">
-                <h3 class="title-h4">Nombre Categoria</h3>
-            </div>
-            <div>
-                <input class="input" type="text" class="input-with-logo" name="nomb" required maxlength="30" value="<?php echo $cate['cate_nombre']; ?>">
-            </div>
-            <div class="title-form">
-                <h3 class="title-h4">Descripción Categoria</h3>
-            </div>
-            <div>
-                <input class="input" type="text" class="input-with-logo" name="desc" style="height: 100px;" value="<?php echo $cate['cate_descripcion']; ?>">
-            </div>
-            <br><br>
-            <div class="btns-form">
-                <button type="submit" class="btn-form" name="enviar">Actualizar</button>
-                <a href="tabla_categorias.php"><button type="button" class="btn-form">Regresar</button></a>
-            </div>
-        </form>
-    </div>
+    <?php
+    if ($cate != null) {
+        ?>
+        <div class="container">
+            <form method="post">
+                <div class="title-form">
+                    <h3 class="title-h4">Nombre Categoria</h3>
+                </div>
+                <div>
+                    <input class="input" type="text" class="input-with-logo" name="nomb" required maxlength="30"
+                        value="<?php echo $cate->nombre; ?>">
+                </div>
+                <div class="title-form">
+                    <h3 class="title-h4">Descripción Categoria</h3>
+                </div>
+                <div>
+                    <input class="input" type="text" class="input-with-logo" name="desc" style="height: 100px;"
+                        value="<?php echo $cate->descripcion; ?>">
+                </div>
+                <br><br>
+                <div class="btns-form">
+                    <button type="submit" class="btn-form" name="enviar">Actualizar</button>
+                    <a href="tabla_categorias.php"><button type="button" class="btn-form">Regresar</button></a>
+                </div>
+            </form>
+        </div>
+        <?php
+    } else {
+        echo "<h1>No existe la categoria</h1>";
+    }
+
+    ?>
     <!--Fin formulario-->
     <!--Parte de envio de datos-->
     <?php
-    if(isset($_POST['enviar'])){
+    if (isset($_POST['enviar'])) {
         $nom = $_POST['nomb'];
         $desc = $_POST['desc'];
-        if(actualizar_categoria($id, $nom, $desc)){
+        if ($catego->actualizarCategoria($id, $nom, $desc)) {
             echo "<script>alert('Se actualizo correctamente')</script>";
             echo "<script>window.location.href = 'tabla_categorias.php';</script>";
-        }else{
+        } else {
             echo "<script>alert('No se pudo actualizar correctamente')</script>";
         }
     }

@@ -40,7 +40,7 @@
   color: #060608;
   text-decoration: none;
   padding: 10px;
-  font-size: 30px;
+  font-size: 20px;
 }
 .hamburger{
   display: flex;
@@ -370,7 +370,7 @@ table td button img{
   justify-content: center;
   padding: 5px;
   color: #717171;
-  font-size: 25px;
+  font-size: 20px;
 }
 .container-detalles div{
   text-align: center;

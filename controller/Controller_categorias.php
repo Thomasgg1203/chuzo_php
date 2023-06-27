@@ -1,86 +1,84 @@
 <?php
 require('../models/Conexion.php');
+require('../models/Categoria.php');
 
-//obtener categorias
-function get_categoria(){
-    $con2 = new Conexion();
-    try{
-        $query = $con2->getCon()->query('SELECT * FROM categorias');
-        $categorias = [];
-        $num_rows = $query->num_rows;
-
-        for ($i = 0; $i < $num_rows; $i++) {
-            $fila = $query->fetch_assoc();
-            $categorias[$i] = $fila;
-        }
-        $con2->closeCon();
-        return $categorias;
-    }catch(mysqli_sql_exception $e){
-        echo "Error al consultar categorias".$e->getMessage();
-        $con2->closeCon();
-        return [];
+class categoriaController{
+    private $conexion;
+    public function __construct(){
+        $this->conexion = new Conexion();
     }
-}
-function detalles_cate($id){
-    $categoria = get_categoria();
-    // Variable detalles
-    $deta = [];
-    foreach($categoria as $c){
-        if($id == $c['cate_id']){
-            $deta = $c;
-            break;
+    //Para enlistar
+    public function obtenerCategorias() {
+        try {
+            $query = $this->conexion->getCon()->query('SELECT * FROM categorias');
+            $categorias = [];
+            $num_rows = $query->num_rows;
+    
+            for ($i = 0; $i < $num_rows; $i++) {
+                $fila = $query->fetch_assoc();
+                $categoria = new Categoria($fila['cate_id'], $fila['cate_nombre'], $fila['cate_descripcion']);
+                $categorias[] = $categoria;
+            }
+            return $categorias;
+        } catch (mysqli_sql_exception $e) {
+            echo "Error al consultar categorías: " . $e->getMessage();
+            return [];
         }
     }
-    return $deta;
-}
-function crear_categoria($nom, $desc){
-    $con = new Conexion();
-    try{
-        $query = "INSERT INTO categorias(cate_nombre, cate_descripcion) VALUES ('$nom','$desc')";
-        // Ejecutar la consulta
-        $con->getCon()->query($query);
-        // Cerrar la conexión
-        $con->closeCon();
-        //retornar respuesta
-        return true;
-    }catch(mysqli_sql_exception $e){
-        echo "Error al crear una categoria: ".$e->getMessage();
-        $con->closeCon();
-        return false;
-    }
-}
-function actualizar_categoria($id, $nom, $desc){
-    $con = new Conexion();
-    try{
-        $query = "UPDATE categorias SET cate_nombre = '$nom',cate_descripcion ='$desc' WHERE cate_id = '$id'";
-        // Ejecutar la consulta
-        $con->getCon()->query($query);
-        // Cerrar la conexión
-        $con->closeCon();
-        //retornar respuesta
-        return true;
-    }catch(mysqli_sql_exception $e){
-        echo "Error al crear una categoria: ".$e->getMessage();
-        $con->closeCon();
-        return false;
-    }
-}
-function eliminar_categoria($id){
-    $con = new Conexion();
-    try{
-        $query = "DELETE FROM categorias WHERE cate_id = '$id'";
+    //Buscar uno en especifico
+    public function detallesCategoria($id){
+        $categorias = $this->obtenerCategorias();
+        $categoriaEncontrada = null;
         
-        // Ejecutar la consulta
-        $con->getCon()->query($query);
+        foreach($categorias as $categoria){
+            if($id == $categoria->id){
+                $categoriaEncontrada = $categoria;
+                break;
+            }
+        }
         
-        // Cerrar la conexión
-        $con->closeCon();
-        //retornar respuesta
-        return true;
-    }catch(mysqli_sql_exception $e){
-        echo "Error al eliminar categorias: ".$e->getMessage();
-        $con->closeCon();
-        return false;
+        return $categoriaEncontrada;
+    }
+    //Funcion para eliminar
+    public function eliminarCategoria($id) {
+        try {
+            $query = "DELETE FROM categorias WHERE cate_id = '$id'";
+            $this->conexion->getCon()->query($query);
+            return true;
+        } catch (mysqli_sql_exception $e) {
+            echo "Error al eliminar categoría: " . $e->getMessage();
+            return false;
+        }
+    }
+    //Funcion para actualizar
+    public function actualizarCategoria($id, $nombre, $descripcion) {
+        try {
+            $query = "UPDATE categorias SET cate_nombre = '$nombre', cate_descripcion = '$descripcion' WHERE cate_id = '$id'";
+            $this->conexion->getCon()->query($query);
+            return true;
+        } catch (mysqli_sql_exception $e) {
+            echo "Error al actualizar categoría: " . $e->getMessage();
+            return false;
+        }
+    }
+    //funcion para crear
+    public function crearCategoria($nombre, $descripcion) {
+        try {
+            $query = "INSERT INTO categorias(cate_nombre, cate_descripcion) VALUES ('$nombre', '$descripcion')";
+            
+            // Ejecutar la consulta
+            $this->conexion->getCon()->query($query);
+            
+            // Retornar respuesta
+            return true;
+        } catch (mysqli_sql_exception $e) {
+            echo "Error al crear una categoría: " . $e->getMessage();
+            return false;
+        }
+    }
+    //Funcion para cerrar la conexion
+    public function cerrarConexion(){
+        $this->conexion->closeCon();
     }
 }
 ?>
