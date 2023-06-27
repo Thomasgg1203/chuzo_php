@@ -30,7 +30,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     //Toma del id necesario para llenar datos
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
-        $cate = detalles_cate($id);
+        $catego = new categoriaController();
+        $cate = $catego->detallesCategoria($id);
     } else {
         echo "No se pudo tomar el id";
     }
@@ -105,17 +106,17 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         <div>
             <p>
                 <b>Identificador:</b>
-                <?php echo $cate['cate_id']; ?>
+                <?php echo $cate->id; ?>
             </p>
             <hr>
             <p>
                 <b>Nombre:</b>
-                <?php echo $cate['cate_nombre'] ?>
+                <?php echo $cate->nombre ?>
             </p>
             <hr>
             <p>
                 <b>Descripción:</b>
-                <?php echo $cate['cate_descripcion']; ?>
+                <?php echo $cate->descripcion; ?>
             </p>
         </div>
     </div>
@@ -132,7 +133,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         </div>
     </div>
     <!--Fin Botones-->
-
+    <?php $catego->cerrarConexion();?>
     <br>
     <!--Parte del footer-->
     <footer class="footer">
